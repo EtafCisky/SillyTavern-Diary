@@ -40,9 +40,9 @@ const defaultSettings = {
     selectedPreset: null,          // 用户选择的日记预设
     selectedTheme: 'classic',      // 选中的主题（默认为经典主题）
     floatWindowVisible: true,      // 悬浮窗是否可见
-    floatWindowPosition: {         // 悬浮窗位置
-        x: 20,
-        y: 100
+    floatWindowPosition: {         // 悬浮窗位置（将在初始化时计算屏幕中央位置）
+        x: 0,
+        y: 0
     }
 };
 
@@ -963,19 +963,101 @@ function toggleFloatWindow() {
     }
 }
 
-// 重置悬浮窗位置
+// 重置悬浮窗位置（居中显示）
 function resetFloatWindowPosition() {
-    const settings = getCurrentSettings();
-    const position = settings.floatWindowPosition || defaultSettings.floatWindowPosition;
+    console.log('🎯 开始重置悬浮窗位置...');
     
-    if (floatWindow.element) {
-        floatWindow.element.css({
-            left: position.x + 'px',
-            top: position.y + 'px'
-        });
+    if (!floatWindow.element || floatWindow.element.length === 0) {
+        console.error('❌ 悬浮窗元素不存在，无法重置位置');
+        toastr.error('悬浮窗元素不存在', '重置位置');
+        return;
     }
     
-    toastr.info('悬浮窗位置已重置', '日记本');
+    console.log('✅ 悬浮窗元素存在，开始处理...');
+    
+    // 确保悬浮窗可见（临时显示以获取正确尺寸）
+    const wasHidden = !floatWindow.element.is(':visible');
+    let originalVisibility = '';
+    
+    console.log(`📋 悬浮窗当前状态: ${wasHidden ? '隐藏' : '可见'}`);
+    
+    if (wasHidden) {
+        originalVisibility = floatWindow.element.css('visibility');
+        floatWindow.element.css('visibility', 'hidden').show();
+        console.log('👁️ 临时显示悬浮窗以获取尺寸');
+    }
+    
+    // 强制重新计算布局
+    floatWindow.element[0].offsetHeight;
+    
+    // 获取视窗尺寸
+    const windowWidth = $(window).width();
+    const windowHeight = $(window).height();
+    
+    // 获取悬浮窗元素尺寸
+    let elementWidth = floatWindow.element.outerWidth(true);
+    let elementHeight = floatWindow.element.outerHeight(true);
+    
+    console.log(`📏 原始元素尺寸: ${elementWidth} x ${elementHeight}`);
+    
+    // 如果无法获取正确尺寸，使用默认值
+    if (elementWidth <= 0) {
+        elementWidth = 60; // 悬浮按钮的大概宽度
+        console.log('⚠️ 无法获取元素宽度，使用默认值:', elementWidth);
+    }
+    if (elementHeight <= 0) {
+        elementHeight = 60; // 悬浮按钮的大概高度
+        console.log('⚠️ 无法获取元素高度，使用默认值:', elementHeight);
+    }
+    
+    // 计算中央位置
+    const centerX = Math.max(0, Math.floor((windowWidth - elementWidth) / 2));
+    const centerY = Math.max(0, Math.floor((windowHeight - elementHeight) / 2));
+    
+    console.log(`📏 视窗尺寸: ${windowWidth} x ${windowHeight}`);
+    console.log(`📏 最终元素尺寸: ${elementWidth} x ${elementHeight}`);
+    console.log(`🎯 计算的中央位置: (${centerX}, ${centerY})`);
+    
+    // 记录当前位置用于对比
+    const currentLeft = parseInt(floatWindow.element.css('left')) || 0;
+    const currentTop = parseInt(floatWindow.element.css('top')) || 0;
+    console.log(`📍 当前位置: (${currentLeft}, ${currentTop})`);
+    
+    // 设置悬浮窗到中央位置
+    floatWindow.element.css({
+        left: centerX + 'px',
+        top: centerY + 'px',
+        position: 'fixed' // 确保使用固定定位
+    });
+    
+    // 验证位置是否设置成功
+    setTimeout(() => {
+        const newLeft = parseInt(floatWindow.element.css('left')) || 0;
+        const newTop = parseInt(floatWindow.element.css('top')) || 0;
+        console.log(`🔍 设置后的位置: (${newLeft}, ${newTop})`);
+        
+        if (newLeft === centerX && newTop === centerY) {
+            console.log('✅ 位置设置成功！');
+        } else {
+            console.log('⚠️ 位置设置可能未生效，期望:', `(${centerX}, ${centerY})`, '实际:', `(${newLeft}, ${newTop})`);
+        }
+    }, 100);
+    
+    // 恢复原始可见状态
+    if (wasHidden) {
+        floatWindow.element.hide().css('visibility', originalVisibility);
+        console.log('👁️ 已恢复原始可见状态');
+    }
+    
+    // 保存新位置到设置
+    extension_settings[extensionName].floatWindowPosition = {
+        x: centerX,
+        y: centerY
+    };
+    saveSettings();
+    
+    console.log(`✅ 悬浮窗重置完成: (${centerX}, ${centerY})`);
+    toastr.success('悬浮窗位置已重置到屏幕中央', '日记本');
 }
 
 // 保存悬浮窗位置

@@ -398,29 +398,6 @@ import { executeSlashCommandsWithOptions } from "slash-commands.js";
 
 ---
 
-## 📊 版本历史
-
-### v3.0.0 (当前版本)
-- ✅ 完整的日记本浏览功能
-- ✅ 一键删除日记功能
-- ✅ 主题切换系统（经典/简洁）
-- ✅ 优化移动端体验
-- ✅ 改进错误处理和用户反馈
-
-### v2.0.0
-- ✅ 自定义角色选择功能
-- ✅ 智能楼层自动删除
-- ✅ 记录功能实现
-- ✅ 完整的写日记工作流
-
-### v1.0.0
-- ✅ 基础插件架构
-- ✅ 可拖拽悬浮窗
-- ✅ 世界书集成
-- ✅ 基本的日记写作功能
-
----
-
 ## 📄 许可证
 
 本项目采用 MIT 许可证。
@@ -438,9 +415,8 @@ import { executeSlashCommandsWithOptions } from "slash-commands.js";
 **🔗 相关链接**:
 - [插件 GitHub 仓库](https://github.com/EtafCisky/SillyTavern-Diary)
 - [SillyTavern 官方文档](https://docs.sillytavern.app/)
-- [插件开发指南](https://docs.sillytavern.app/extensions/writing-extensions/)
 
 ---
 
 *最后更新: 2025-10-05*  
-*维护者: 日记本插件开发团队*
+*维护者: Etaf Cisky*
