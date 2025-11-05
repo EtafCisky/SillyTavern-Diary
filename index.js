@@ -1061,14 +1061,21 @@ const PLUGIN_SETTINGS_CSS = `
 /* 移动设备 */
 @media (max-width: 768px) {
     .diary-tabs-nav {
-        flex-direction: column;
-        gap: 2px;
-        padding: 6px;
+        flex-direction: row;
+        gap: 1px;
+        padding: 3px;
     }
     
     .diary-tab-btn {
-        padding: 12px;
-        justify-content: flex-start;
+        flex: 1;
+        padding: 10px 4px;
+        justify-content: center;
+        font-size: 11px;
+        min-width: 0;
+    }
+    
+    .diary-tab-text {
+        font-weight: 500;
     }
     
     .diary-config-item {
@@ -1088,6 +1095,26 @@ const PLUGIN_SETTINGS_CSS = `
     
     .diary-select, .diary-btn {
         width: 100%;
+    }
+}
+
+/* 超小屏幕设备优化 */
+@media (max-width: 480px) {
+    .diary-tab-btn {
+        padding: 8px 2px;
+        font-size: 10px;
+    }
+    
+    .diary-tab-text {
+        font-weight: 500;
+    }
+    
+    .diary-tabs-content {
+        padding: 12px;
+    }
+    
+    .diary-config-group {
+        padding: 12px;
     }
 }
 
