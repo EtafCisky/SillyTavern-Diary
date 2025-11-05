@@ -296,7 +296,7 @@ const SUB_BUTTONS_CSS = `
 /* 移动端优化 */
 @media (max-width: 768px) {
     .diary-float-icon {
-        font-size: 29px;
+        font-size: 36px;
     }
     
     .diary-float-sub-btn {
@@ -452,7 +452,7 @@ const BUTTON_THEMES = {
 /* 移动端优化 */
 @media (max-width: 768px) {
     .diary-float-icon {
-        font-size: 29px;
+        font-size: 36px;
     }
 }
         `
@@ -546,7 +546,7 @@ const BUTTON_THEMES = {
 /* 移动端优化 */
 @media (max-width: 768px) {
     .diary-float-icon {
-        font-size: 29px;
+        font-size: 36px;
     }
 }
         `
@@ -637,7 +637,7 @@ const BUTTON_THEMES = {
 /* 移动端优化 */
 @media (max-width: 768px) {
     .diary-float-icon {
-        font-size: 29px;
+        font-size: 36px;
     }
 }
         `
@@ -738,7 +738,7 @@ const BUTTON_THEMES = {
 /* 移动端优化 */
 @media (max-width: 768px) {
     .diary-float-icon {
-        font-size: 29px;
+        font-size: 36px;
     }
 }
         `
