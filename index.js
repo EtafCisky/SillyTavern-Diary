@@ -1162,6 +1162,51 @@ const PLUGIN_SETTINGS_CSS = `
 .diary-plugin-settings.dark-font .diary-help-section strong {
     color: #1a202c;
 }
+
+/* ========== 字体颜色设置区域特殊样式 ========== */
+/* 字体颜色设置区域显示与当前设置相反的颜色，方便用户对比和修改 */
+
+/* 当前为浅色字体时，字体颜色设置区域显示深色字体 */
+.diary-plugin-settings:not(.dark-font) .diary-font-color-group h4 {
+    color: #1a202c;
+}
+
+.diary-plugin-settings:not(.dark-font) .diary-font-color-group .diary-config-title {
+    color: #1a202c;
+}
+
+.diary-plugin-settings:not(.dark-font) .diary-font-color-group .diary-config-desc {
+    color: rgba(26, 32, 44, 0.6);
+}
+
+.diary-plugin-settings:not(.dark-font) .diary-font-color-group .diary-theme-description {
+    color: rgba(26, 32, 44, 0.7);
+}
+
+.diary-plugin-settings:not(.dark-font) .diary-font-color-group .diary-select {
+    color: #1a202c;
+}
+
+/* 当前为深色字体时，字体颜色设置区域显示浅色字体 */
+.diary-plugin-settings.dark-font .diary-font-color-group h4 {
+    color: #fff !important;
+}
+
+.diary-plugin-settings.dark-font .diary-font-color-group .diary-config-title {
+    color: #fff !important;
+}
+
+.diary-plugin-settings.dark-font .diary-font-color-group .diary-config-desc {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.diary-plugin-settings.dark-font .diary-font-color-group .diary-theme-description {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.diary-plugin-settings.dark-font .diary-font-color-group .diary-select {
+    color: #fff !important;
+}
 `;
 
 // 加载悬浮窗按钮通用样式（独立于主题）
@@ -1437,8 +1482,8 @@ function updateFontColorUI() {
     
     // 更新字体颜色描述
     const descriptions = {
-        'light': '当前使用浅色字体，适合深色背景环境',
-        'dark': '当前使用深色字体，适合浅色背景环境'
+        'light': '当前使用浅色字体，适合深色背景环境。本设置区域预览深色字体效果。',
+        'dark': '当前使用深色字体，适合浅色背景环境。本设置区域预览浅色字体效果。'
     };
     $('#diary_font_color_description').text(descriptions[currentFontColorMode]);
 }
