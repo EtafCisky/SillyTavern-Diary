@@ -575,12 +575,11 @@ const BUTTON_THEMES = {
     font-size: 32px;
     color: #ec4899;
     text-shadow: 
-        0 0 12px rgba(236, 72, 153, 0.8),
-        0 0 22px rgba(236, 72, 153, 0.6),
-        0 0 32px rgba(236, 72, 153, 0.4),
+        0 0 10px rgba(236, 72, 153, 0.7),
+        0 0 18px rgba(236, 72, 153, 0.5),
         0 2px 4px rgba(0, 0, 0, 0.3);
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.6));
+    filter: drop-shadow(0 0 6px rgba(236, 72, 153, 0.5));
     position: relative;
 }
 
@@ -603,15 +602,14 @@ const BUTTON_THEMES = {
     color: #be185d;
     animation: diary-flower-sway 3s linear infinite;
     text-shadow: 
-        0 0 20px rgba(190, 24, 93, 1),
-        0 0 32px rgba(190, 24, 93, 0.9),
-        0 0 48px rgba(190, 24, 93, 0.6),
-        0 2px 6px rgba(0, 0, 0, 0.5);
+        0 0 16px rgba(190, 24, 93, 0.9),
+        0 0 24px rgba(190, 24, 93, 0.7),
+        0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .diary-float-expanded .diary-float-icon::before {
-    background: radial-gradient(circle, rgba(190, 24, 93, 0.8) 0%, rgba(190, 24, 93, 0.3) 50%, transparent 80%);
-    animation: diary-flower-bloom 1.5s ease-in-out infinite;
+    background: radial-gradient(circle, rgba(190, 24, 93, 0.4) 0%, transparent 70%);
+    animation: diary-flower-bloom 2s ease-in-out infinite alternate;
 }
 
 /* 花朵旋转动画 */
@@ -627,23 +625,11 @@ const BUTTON_THEMES = {
 /* 花朵绽放动画 */
 @keyframes diary-flower-bloom {
     0% {
-        opacity: 0.4;
-        transform: translate(-50%, -50%) scale(1.2);
-    }
-    25% {
-        opacity: 0.8;
-        transform: translate(-50%, -50%) scale(1.6);
-    }
-    50% {
-        opacity: 0.9;
-        transform: translate(-50%, -50%) scale(1.8);
-    }
-    75% {
-        opacity: 0.7;
-        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0.2;
+        transform: translate(-50%, -50%) scale(1);
     }
     100% {
-        opacity: 0.4;
+        opacity: 0.6;
         transform: translate(-50%, -50%) scale(1.2);
     }
 }
@@ -652,22 +638,6 @@ const BUTTON_THEMES = {
 @media (max-width: 768px) {
     .diary-float-icon {
         font-size: 36px;
-    }
-    
-    /* 移动端花朵光晕增强 */
-    .diary-float-expanded .diary-float-icon {
-        text-shadow: 
-            0 0 24px rgba(190, 24, 93, 1),
-            0 0 40px rgba(190, 24, 93, 0.95),
-            0 0 60px rgba(190, 24, 93, 0.8),
-            0 0 80px rgba(190, 24, 93, 0.5),
-            0 3px 8px rgba(0, 0, 0, 0.6);
-    }
-    
-    .diary-float-expanded .diary-float-icon::before {
-        width: 60px;
-        height: 60px;
-        background: radial-gradient(circle, rgba(190, 24, 93, 0.9) 0%, rgba(190, 24, 93, 0.5) 40%, rgba(190, 24, 93, 0.2) 70%, transparent 85%);
     }
 }
         `
