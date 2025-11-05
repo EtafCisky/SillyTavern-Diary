@@ -345,7 +345,7 @@ const BUTTON_THEMES = {
         id: 'heart',
         name: '爱心',
         description: '温暖的爱心符号，会跳动的粉色心脏',
-        symbol: '❤',
+        symbol: '♡',
         css: `
 /* 主按钮基础交互样式 */
 .diary-float-main-btn:hover {
