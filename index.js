@@ -132,6 +132,20 @@ const FLOAT_WINDOW_BASE_CSS = `
 const SUB_BUTTONS_CSS = `
 /* ========== 子按钮样式 ========== */
 
+/* Font Awesome备选方案 - 如果图标字体未加载，显示emoji */
+.diary-float-icon::before {
+    font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Pro', sans-serif;
+    font-weight: 900;
+}
+
+/* 如果Font Awesome未加载，显示data-symbol中的emoji */
+@supports not (font-family: 'Font Awesome 5 Free') {
+    .diary-float-icon::after {
+        content: attr(data-symbol);
+        font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+    }
+}
+
 /* 子按钮基础样式 - 纯符号设计 */
 .diary-float-sub-btn {
     position: absolute;
@@ -154,8 +168,8 @@ const SUB_BUTTONS_CSS = `
     transform: translateY(-2px) scale(1.1);
 }
 
-.diary-float-sub-btn span {
-    font-size: 24px;
+.diary-float-sub-btn i {
+    font-size: 20px;
     color: #6b7280;
     text-shadow: 
         0 0 6px rgba(107, 114, 128, 0.4),
@@ -164,7 +178,7 @@ const SUB_BUTTONS_CSS = `
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
-.diary-float-sub-btn:hover span {
+.diary-float-sub-btn:hover i {
     color: #4b5563;
     transform: scale(1.15);
     text-shadow: 
@@ -174,33 +188,33 @@ const SUB_BUTTONS_CSS = `
 }
 
 /* 为不同功能按钮设置特色颜色 */
-.diary-float-book-btn span {
+.diary-float-book-btn i {
     color: #3b82f6;
 }
 
-.diary-float-book-btn:hover span {
+.diary-float-book-btn:hover i {
     color: #1d4ed8;
     text-shadow: 
         0 0 8px rgba(59, 130, 246, 0.6),
         0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-.diary-float-write-btn span {
+.diary-float-write-btn i {
     color: #f59e0b;
 }
 
-.diary-float-write-btn:hover span {
+.diary-float-write-btn:hover i {
     color: #d97706;
     text-shadow: 
         0 0 8px rgba(245, 158, 11, 0.6),
         0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-.diary-float-record-btn span {
+.diary-float-record-btn i {
     color: #10b981;
 }
 
-.diary-float-record-btn:hover span {
+.diary-float-record-btn:hover i {
     color: #059669;
     text-shadow: 
         0 0 8px rgba(16, 185, 129, 0.6),
@@ -302,8 +316,8 @@ const SUB_BUTTONS_CSS = `
         padding: 8px;
     }
     
-    .diary-float-sub-btn span {
-        font-size: 26px;
+    .diary-float-sub-btn i {
+        font-size: 22px;
     }
     
     /* 移动端子按钮位置调整 */
@@ -344,8 +358,9 @@ const BUTTON_THEMES = {
     heart: {
         id: 'heart',
         name: '爱心',
-        description: '温暖的爱心符号，会跳动的粉色心脏',
+        description: '温暖的爱心图标，会跳动的粉色心脏',
         symbol: '❤',
+        iconClass: 'fas fa-heart',
         css: `
 /* 主按钮基础交互样式 */
 .diary-float-main-btn:hover {
@@ -459,8 +474,9 @@ const BUTTON_THEMES = {
     star: {
         id: 'star',
         name: '星星',
-        description: '闪亮的星星符号，会发出温暖的金色光芒',
+        description: '闪亮的星星图标，会发出温暖的金色光芒',
         symbol: '⭐',
+        iconClass: 'fas fa-star',
         css: `
 /* 主按钮基础交互样式 */
 .diary-float-main-btn:hover {
@@ -553,8 +569,9 @@ const BUTTON_THEMES = {
     flower: {
         id: 'flower',
         name: '花朵',
-        description: '优雅的花朵符号，会360度旋转的粉紫色花朵',
+        description: '优雅的花朵图标，会360度旋转的粉紫色花朵',
         symbol: '🌸',
+        iconClass: 'fas fa-leaf',
         css: `
 /* 主按钮基础交互样式 */
 .diary-float-main-btn:hover {
@@ -644,8 +661,9 @@ const BUTTON_THEMES = {
     moon: {
         id: 'moon',
         name: '月亮',
-        description: '神秘的月亮符号，会散发柔和的蓝白色月光',
+        description: '神秘的月亮图标，会散发柔和的蓝白色月光',
         symbol: '🌙',
+        iconClass: 'fas fa-moon',
         css: `
 /* 主按钮基础交互样式 */
 .diary-float-main-btn:hover {
@@ -1137,10 +1155,20 @@ function loadButtonThemeStyle() {
         return;
     }
     
-    // 更新悬浮窗的符号
+    // 更新悬浮窗的图标
     const floatIcon = document.querySelector('.diary-float-icon');
     if (floatIcon) {
-        floatIcon.textContent = buttonTheme.symbol;
+        // 清除所有Font Awesome类名
+        floatIcon.className = 'diary-float-icon';
+        
+        // 添加新的图标类名
+        if (buttonTheme.iconClass) {
+            floatIcon.className += ' ' + buttonTheme.iconClass;
+        }
+        
+        // 保留符号作为备选（如果图标加载失败）
+        floatIcon.textContent = '';
+        floatIcon.setAttribute('data-symbol', buttonTheme.symbol);
     }
     
     // 创建样式元素
