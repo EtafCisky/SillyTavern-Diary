@@ -454,8 +454,61 @@ const BUTTON_THEMES = {
 @media (max-width: 768px) {
     .diary-float-icon {
         font-size: 36px;
-        /* 移动端也保持水平拉伸效果 */
-        transform: scaleX(1.2);
+        /* 移动端需要更大的水平拉伸效果 */
+        transform: scaleX(1.6) !important;
+    }
+    
+    /* 移动端心跳动画也要加强拉伸 */
+    @keyframes diary-heart-beat {
+        0% {
+            transform: scaleX(1.6) scale(1);
+        }
+        10% {
+            transform: scaleX(1.6) scale(1.15);
+        }
+        20% {
+            transform: scaleX(1.6) scale(1.08);
+        }
+        30% {
+            transform: scaleX(1.6) scale(1.18);
+        }
+        40% {
+            transform: scaleX(1.6) scale(1);
+        }
+        100% {
+            transform: scaleX(1.6) scale(1);
+        }
+    }
+}
+
+/* 小屏手机进一步优化 */
+@media (max-width: 480px) {
+    .diary-float-icon {
+        font-size: 34px;
+        /* 小屏手机需要更强的水平拉伸 */
+        transform: scaleX(1.8) !important;
+    }
+    
+    /* 小屏手机心跳动画 */
+    @keyframes diary-heart-beat {
+        0% {
+            transform: scaleX(1.8) scale(1);
+        }
+        10% {
+            transform: scaleX(1.8) scale(1.15);
+        }
+        20% {
+            transform: scaleX(1.8) scale(1.08);
+        }
+        30% {
+            transform: scaleX(1.8) scale(1.18);
+        }
+        40% {
+            transform: scaleX(1.8) scale(1);
+        }
+        100% {
+            transform: scaleX(1.8) scale(1);
+        }
     }
 }
         `
