@@ -76,16 +76,6 @@ let buttonThemeStyleLink = null;
 const FLOAT_WINDOW_BASE_CSS = `
 /* ========== 悬浮窗基础样式 ========== */
 
-/* 统一emoji字体设置 - 确保跨平台一致性 */
-.diary-emoji-unified {
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
 /* 悬浮窗主容器 */
 .diary-float-window {
     position: fixed;
@@ -172,13 +162,6 @@ const SUB_BUTTONS_CSS = `
         0 2px 4px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
-    /* 统一emoji字体 */
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 .diary-float-sub-btn:hover span {
@@ -188,14 +171,11 @@ const SUB_BUTTONS_CSS = `
         0 0 8px rgba(75, 85, 99, 0.6),
         0 2px 6px rgba(0, 0, 0, 0.3);
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
-    /* 保持统一emoji字体 */
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
 }
 
 /* 为不同功能按钮设置特色颜色 */
 .diary-float-book-btn span {
     color: #3b82f6;
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
 }
 
 .diary-float-book-btn:hover span {
@@ -203,12 +183,10 @@ const SUB_BUTTONS_CSS = `
     text-shadow: 
         0 0 8px rgba(59, 130, 246, 0.6),
         0 2px 6px rgba(0, 0, 0, 0.3);
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
 }
 
 .diary-float-write-btn span {
     color: #f59e0b;
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
 }
 
 .diary-float-write-btn:hover span {
@@ -216,12 +194,10 @@ const SUB_BUTTONS_CSS = `
     text-shadow: 
         0 0 8px rgba(245, 158, 11, 0.6),
         0 2px 6px rgba(0, 0, 0, 0.3);
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
 }
 
 .diary-float-record-btn span {
     color: #10b981;
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
 }
 
 .diary-float-record-btn:hover span {
@@ -229,7 +205,6 @@ const SUB_BUTTONS_CSS = `
     text-shadow: 
         0 0 8px rgba(16, 185, 129, 0.6),
         0 2px 6px rgba(0, 0, 0, 0.3);
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
 }
 
 /* 子按钮位置 - 围绕主按钮排列 */
@@ -329,8 +304,6 @@ const SUB_BUTTONS_CSS = `
     
     .diary-float-sub-btn span {
         font-size: 26px;
-        /* 确保移动端子按钮也使用统一emoji字体 */
-        font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
     }
     
     /* 移动端子按钮位置调整 */
@@ -398,13 +371,6 @@ const BUTTON_THEMES = {
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     filter: drop-shadow(0 0 6px rgba(255, 107, 157, 0.5));
     position: relative;
-    /* 统一emoji字体 */
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 /* 光晕效果（仅在展开状态显示） */
@@ -486,8 +452,6 @@ const BUTTON_THEMES = {
 @media (max-width: 768px) {
     .diary-float-icon {
         font-size: 36px;
-        /* 确保移动端也使用统一emoji字体 */
-        font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
     }
 }
         `
@@ -522,13 +486,6 @@ const BUTTON_THEMES = {
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.6));
     position: relative;
-    /* 统一emoji字体 */
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 /* 光晕效果（仅在展开状态显示） */
@@ -589,8 +546,6 @@ const BUTTON_THEMES = {
 @media (max-width: 768px) {
     .diary-float-icon {
         font-size: 36px;
-        /* 确保移动端也使用统一emoji字体 */
-        font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
     }
 }
         `
@@ -625,13 +580,6 @@ const BUTTON_THEMES = {
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     filter: drop-shadow(0 0 6px rgba(236, 72, 153, 0.5));
     position: relative;
-    /* 统一emoji字体 */
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 /* 光晕效果（仅在展开状态显示） */
@@ -689,8 +637,6 @@ const BUTTON_THEMES = {
 @media (max-width: 768px) {
     .diary-float-icon {
         font-size: 36px;
-        /* 确保移动端也使用统一emoji字体 */
-        font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
     }
 }
         `
@@ -725,13 +671,6 @@ const BUTTON_THEMES = {
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.6));
     position: relative;
-    /* 统一emoji字体 */
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 /* 光晕效果（仅在展开状态显示） */
@@ -799,8 +738,6 @@ const BUTTON_THEMES = {
 @media (max-width: 768px) {
     .diary-float-icon {
         font-size: 36px;
-        /* 确保移动端也使用统一emoji字体 */
-        font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
     }
 }
         `
