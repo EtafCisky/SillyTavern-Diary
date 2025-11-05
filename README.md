@@ -284,8 +284,9 @@ const THEMES = {
 #### 3. 设计样式
 新主题 CSS 必须包含以下样式：
 
+> **⚠️ 重要说明**：插件设置页面样式（`.diary-plugin-settings` 及相关样式）已统一管理在 `index.js` 文件中，无需在新主题CSS文件中重复定义。这确保了无论选择哪个主题，插件设置页面的外观都保持一致。
+
 **必需样式类：**
-- `.diary-plugin-settings` - 插件设置页面
 - `.diary-float-window` - 悬浮窗
 - `.diary-custom-character-dialog` - 自定义角色弹窗
 - `.diary-book-dialog` - 日记本弹窗
@@ -296,8 +297,7 @@ const THEMES = {
 
 **推荐结构：**
 ```css
-/* ===== 插件设置页面样式 ===== */
-.diary-plugin-settings { ... }
+/* 注意：不要包含插件设置页面样式，这些已在 index.js 中统一管理 */
 
 /* ===== 悬浮窗样式 ===== */
 .diary-float-window { ... }
@@ -326,13 +326,26 @@ const THEMES = {
 #### 主题加载机制
 ```javascript
 // 启动时
-loadSettings() → loadTheme(selectedTheme)
+loadSettings() → loadPluginSettingsStyle() + loadTheme(selectedTheme)
 
 // 切换时
 用户选择 → switchTheme(themeId) → loadTheme(themeId) + 保存设置
 
 // CSS加载
 loadTheme() → 移除旧CSS → 创建新CSS → 添加到<head>
+loadPluginSettingsStyle() → 创建内联样式 → 添加到<head>
+```
+
+#### 插件设置页面样式管理
+从v3.0版本开始，插件设置页面的样式已从各个主题CSS文件中提取出来，统一管理在 `index.js` 的 `PLUGIN_SETTINGS_CSS` 常量中。这样做的好处是：
+
+- **一致性**：无论选择哪个主题，设置页面外观都保持一致
+- **维护性**：只需在一个地方修改设置页面样式
+- **扩展性**：添加新主题时无需重复定义设置页面样式
+
+```javascript
+// 设置页面样式加载流程
+初始化 → loadPluginSettingsStyle() → 创建<style>元素 → 应用PLUGIN_SETTINGS_CSS
 ```
 
 #### API 集成

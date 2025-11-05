@@ -2,91 +2,184 @@
 <div class="diary-plugin-settings">
     <div class="inline-drawer">
         <div class="inline-drawer-toggle inline-drawer-header">
-            <b>📖 日记本</b>
+            <b>日记本</b>
             <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
         </div>
         <div class="inline-drawer-content">
-            <!-- 基本设置区域 -->
-            <div class="diary-settings-section">
-                <h4>📋 基本设置</h4>
+            <!-- 分栏导航 -->
+            <div class="diary-tabs-container">
+                <div class="diary-tabs-nav">
+                    <button class="diary-tab-btn active" data-tab="config">
+                        <span class="diary-tab-text">配置管理</span>
+                    </button>
+                    <button class="diary-tab-btn" data-tab="theme">
+                        <span class="diary-tab-text">主题美化</span>
+                    </button>
+                    <button class="diary-tab-btn" data-tab="help">
+                        <span class="diary-tab-text">使用帮助</span>
+                    </button>
+                </div>
                 
-                <div class="diary-setting-item flex-container">
-                    <span class="diary-info-label">世界书名称: <strong>日记本</strong> </span>
+                <!-- 分栏内容 -->
+                <div class="diary-tabs-content">
+                    <!-- 配置管理栏 -->
+                    <div class="diary-tab-pane active" id="diary-tab-config">
+                        <div class="diary-tab-header">
+                            <h3>配置管理</h3>
+                            <p>管理插件的基础配置和功能设置</p>
+                        </div>
+                        
+                        <!-- 世界书配置 -->
+                        <div class="diary-config-group">
+                            <h4>世界书配置</h4>
+                            <div class="diary-config-item">
+                                <div class="diary-config-label">
+                                    <span class="diary-config-title">世界书名称</span>
+                                    <span class="diary-config-desc">所有日记存储的世界书名称</span>
+                                </div>
+                                <div class="diary-config-value">
+                                    <span class="diary-config-badge">日记本</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 预设管理 -->
+                        <div class="diary-config-group">
+                            <h4>预设管理</h4>
+                            <div class="diary-config-item">
+                                <div class="diary-config-label">
+                                    <span class="diary-config-title">日记专用预设</span>
+                                    <span class="diary-config-desc">为日记生成优化的AI预设配置</span>
+                                </div>
+                                <div class="diary-config-value">
+                                    <button id="diary_configure_presets" class="diary-btn diary-btn-primary">
+                                        <span>⚙️ 配置预设</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="diary-config-item diary-preset-status">
+                                <span id="diary_selected_preset" class="diary-preset-info">未选择预设</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 悬浮窗控制 -->
+                        <div class="diary-config-group">
+                            <h4>悬浮窗控制</h4>
+                            <div class="diary-config-item">
+                                <div class="diary-config-label">
+                                    <span class="diary-config-title">悬浮窗显示</span>
+                                    <span class="diary-config-desc">控制聊天页面悬浮窗的显示状态</span>
+                                </div>
+                                <div class="diary-config-value">
+                                    <button id="diary_toggle_float_window" class="diary-btn diary-btn-secondary">
+                                        <span>显示/隐藏</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="diary-config-item">
+                                <div class="diary-config-label">
+                                    <span class="diary-config-title">窗口位置</span>
+                                    <span class="diary-config-desc">重置悬浮窗到屏幕默认位置</span>
+                                </div>
+                                <div class="diary-config-value">
+                                    <button id="diary_reset_float_position" class="diary-btn diary-btn-secondary">
+                                        <span>重置位置</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 主题美化栏 -->
+                    <div class="diary-tab-pane" id="diary-tab-theme">
+                        <div class="diary-tab-header">
+                            <h3>主题美化</h3>
+                            <p>选择你喜欢的界面主题风格</p>
+                        </div>
+                        
+                        <!-- 主题选择 -->
+                        <div class="diary-config-group">
+                            <h4>主题设置</h4>
+                            <div class="diary-config-item">
+                                <div class="diary-config-label">
+                                    <span class="diary-config-title">当前主题</span>
+                                    <span class="diary-config-desc">选择插件界面的视觉风格</span>
+                                </div>
+                                <div class="diary-config-value">
+                                    <select id="diary_theme_select" class="diary-select">
+                                        <!-- 主题选项将由JS动态生成 -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="diary-config-item diary-theme-desc">
+                                <span id="diary_theme_description" class="diary-theme-description">主题说明</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 按钮美化设置 -->
+                        <div class="diary-config-group">
+                            <h4>按钮美化</h4>
+                            <div class="diary-config-item">
+                                <div class="diary-config-label">
+                                    <span class="diary-config-title">悬浮按钮样式</span>
+                                    <span class="diary-config-desc">选择主按钮的图案和动画效果</span>
+                                </div>
+                                <div class="diary-config-value">
+                                    <select id="diary_button_theme_select" class="diary-select">
+                                        <!-- 按钮美化选项将由JS动态生成 -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="diary-config-item diary-button-theme-desc">
+                                <span id="diary_button_theme_description" class="diary-theme-description">按钮样式说明</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 使用帮助栏 -->
+                    <div class="diary-tab-pane" id="diary-tab-help">
+                        <div class="diary-tab-header">
+                            <h3>使用帮助</h3>
+                            <p>详细的插件使用指南</p>
+                        </div>
+                        
+                        <!-- 使用指南 -->
+                        <div class="diary-config-group">
+                            <h4>使用指南</h4>
+                            <div class="diary-help-content">
+                                <div class="diary-help-section">
+                                    <h5>悬浮窗操作</h5>
+                                    <ul>
+                                        <li>聊天页面会出现可拖拽的圆形悬浮窗</li>
+                                        <li>点击悬浮窗展开三个功能按钮</li>
+                                        <li>点击外部区域可收起悬浮菜单</li>
+                                        <li>长按可拖拽悬浮窗到任意位置</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="diary-help-section">
+                                    <h5>📖 功能按钮</h5>
+                                    <ul>
+                                        <li><strong>📖 日记本</strong>：浏览和管理现有日记</li>
+                                        <li><strong>✏️ 写日记</strong>：开始完整的日记写作流程</li>
+                                        <li><strong>📝 记录</strong>：手动解析最新AI回复中的日记内容</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="diary-help-section">
+                                    <h5>使用技巧</h5>
+                                    <ul>
+                                        <li>建议配置专用的日记生成预设以获得更好的效果</li>
+                                        <li>日记会自动按角色分类存储在世界书中</li>
+                                        <li>可以为任意角色写日记，不限于当前角色卡</li>
+                                        <li>支持在移动设备上使用，界面完全响应式</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <hr class="sysHR" />
-
-            <!-- 主题美化区域 -->
-            <div class="diary-theme-section">
-                <h4>🎨 主题美化</h4>
-                
-                <div class="diary-setting-item flex-container">
-                    <label for="diary_theme_select">当前主题:</label>
-                    <select id="diary_theme_select" class="text_pole">
-                        <!-- 主题选项将由JS动态生成 -->
-                    </select>
-                </div>
-                
-                <div class="diary-setting-item flex-container">
-                    <span id="diary_theme_description" class="diary-status-text">主题说明</span>
-                </div>
-            </div>
-
-            <hr class="sysHR" />
-
-            <!-- 预设管理区域 -->
-            <div class="diary-presets-section">
-                <h4>⚙️ 预设管理</h4>
-                
-                <div class="diary-setting-item flex-container">
-                    <span id="diary_selected_preset" class="diary-status-text">未选择预设</span>
-                </div>
-                
-                <div class="diary-setting-item flex-container">
-                    <input id="diary_configure_presets" class="menu_button" type="button" value="配置预设" />
-                </div>
-            </div>
-
-            <hr class="sysHR" />
-
-            <!-- 悬浮窗控制区域 -->
-            <div class="diary-float-control-section">
-                <h4>🎯 悬浮窗控制</h4>
-                
-                <div class="diary-setting-item flex-container">
-                    <input id="diary_toggle_float_window" class="menu_button" type="button" value="显示/隐藏悬浮窗" />
-                </div>
-                
-                <div class="diary-setting-item flex-container">
-                    <input id="diary_reset_float_position" class="menu_button" type="button" value="重置悬浮窗位置" />
-                </div>
-            </div>
-
-            <hr class="sysHR" />
-
-            <!-- 状态信息区域 -->
-            <div class="diary-status-section">
-                <h4>📊 状态信息</h4>
-                
-                <div class="diary-setting-item flex-container">
-                    <input id="diary_show_status" class="menu_button" type="button" value="显示插件状态" />
-                </div>
-                
-                <div class="diary-info-text">
-                    <p><small>
-                        <strong>使用说明:</strong><br>
-                        • 聊天页面会出现可拖拽的圆形悬浮窗<br>
-                        • 点击悬浮窗展开三个功能按钮<br>
-                        • 📖 日记本: 浏览和管理现有日记<br>
-                        • ✏️ 写日记: 开始完整的日记写作流程<br>
-                        • 📝 记录: 手动解析最新AI回复中的日记内容<br>
-                        • 点击外部区域可收起悬浮菜单
-                    </small></p>
-                </div>
-            </div>
-
-            <hr class="sysHR" />
         </div>
     </div>
 </div>
@@ -99,7 +192,7 @@
 <!-- 悬浮窗 -->
 <div id="diary-float-window" class="diary-float-window" style="display: none;">
     <div class="diary-float-main-btn" id="diary-float-main-btn">
-        <span class="diary-float-icon">📖</span>
+        <span class="diary-float-icon">❤</span>
     </div>
     <div class="diary-float-menu" id="diary-float-menu" style="display: none;">
         <div class="diary-float-sub-btn diary-float-book-btn" id="diary-float-book-btn" title="日记本">

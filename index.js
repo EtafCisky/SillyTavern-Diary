@@ -25,12 +25,6 @@ const THEMES = {
         name: '简洁',
         description: '现代简约设计，清爽的界面和流畅的交互体验',
         cssFile: 'style-simple.css'
-    },
-    night: {
-        id: 'night',
-        name: '夜间护眼',
-        description: '专为夜间使用设计的深色主题，以深邃夜空为背景，金色星光点缀，低蓝光护眼配色，温润舒适的阅读体验',
-        cssFile: 'style-night.css'
     }
     // 未来可以在这里添加更多主题
     // future_theme: {
@@ -45,6 +39,7 @@ const THEMES = {
 const defaultSettings = {
     selectedPreset: null,          // 用户选择的日记预设
     selectedTheme: 'classic',      // 选中的主题（默认为经典主题）
+    selectedButtonTheme: 'heart',  // 选中的按钮美化（默认为爱心）
     floatWindowVisible: true,      // 悬浮窗是否可见
     floatWindowPosition: {         // 悬浮窗位置（将在初始化时计算屏幕中央位置）
         x: 0,
@@ -72,6 +67,1117 @@ function saveSettings() {
 
 // 当前加载的主题CSS链接元素
 let currentThemeLink = null;
+// 插件设置页面CSS样式链接元素
+let pluginSettingsStyleLink = null;
+let floatWindowStyleLink = null;
+let buttonThemeStyleLink = null;
+
+// 悬浮窗基础容器样式（独立于主题和按钮美化）
+const FLOAT_WINDOW_BASE_CSS = `
+/* ========== 悬浮窗基础样式 ========== */
+
+/* 悬浮窗主容器 */
+.diary-float-window {
+    position: fixed;
+    z-index: 99999;
+    user-select: none;
+    pointer-events: none;
+}
+
+.diary-float-window * {
+    pointer-events: auto;
+}
+
+/* 主按钮基础容器 */
+.diary-float-main-btn {
+    width: auto;
+    height: auto;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 4px;
+}
+
+/* 菜单容器 */
+.diary-float-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+}
+
+/* 拖拽时的样式 */
+.diary-float-window.dragging {
+    cursor: grabbing;
+}
+
+.diary-float-window.dragging .diary-float-main-btn {
+    cursor: grabbing;
+    transform: scale(0.9) rotate(-5deg);
+}
+
+.diary-float-window.dragging .diary-float-icon {
+    animation: none;
+    opacity: 0.8;
+}
+`;
+
+// 子按钮样式（独立管理，不随主按钮美化改变）
+const SUB_BUTTONS_CSS = `
+/* ========== 子按钮样式 ========== */
+
+/* 子按钮基础样式 - 纯符号设计 */
+.diary-float-sub-btn {
+    position: absolute;
+    width: auto;
+    height: auto;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: scale(0.3) translateY(10px);
+    animation: diary-sub-btn-appear 0.4s ease forwards;
+    padding: 6px;
+}
+
+.diary-float-sub-btn:hover {
+    transform: translateY(-2px) scale(1.1);
+}
+
+.diary-float-sub-btn span {
+    font-size: 24px;
+    color: #6b7280;
+    text-shadow: 
+        0 0 6px rgba(107, 114, 128, 0.4),
+        0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.diary-float-sub-btn:hover span {
+    color: #4b5563;
+    transform: scale(1.15);
+    text-shadow: 
+        0 0 8px rgba(75, 85, 99, 0.6),
+        0 2px 6px rgba(0, 0, 0, 0.3);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+/* 为不同功能按钮设置特色颜色 */
+.diary-float-book-btn span {
+    color: #3b82f6;
+}
+
+.diary-float-book-btn:hover span {
+    color: #1d4ed8;
+    text-shadow: 
+        0 0 8px rgba(59, 130, 246, 0.6),
+        0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.diary-float-write-btn span {
+    color: #f59e0b;
+}
+
+.diary-float-write-btn:hover span {
+    color: #d97706;
+    text-shadow: 
+        0 0 8px rgba(245, 158, 11, 0.6),
+        0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.diary-float-record-btn span {
+    color: #10b981;
+}
+
+.diary-float-record-btn:hover span {
+    color: #059669;
+    text-shadow: 
+        0 0 8px rgba(16, 185, 129, 0.6),
+        0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* 子按钮位置 - 围绕主按钮排列 */
+.diary-float-book-btn {
+    top: -40px;
+    left: -8px;
+    animation-delay: 0.1s;
+}
+
+.diary-float-write-btn {
+    top: -25px;
+    left: -45px;
+    animation-delay: 0.15s;
+}
+
+.diary-float-record-btn {
+    top: -25px;
+    left: 30px;
+    animation-delay: 0.2s;
+}
+
+/* 注释：diary-heart-pulse 动画已移除，因为默认状态不再需要跳动效果 */
+
+/* 真实心脏跳动动画 - 1秒一次，模仿心脏节律 */
+@keyframes diary-heart-beat {
+    0% {
+        transform: scale(1);
+    }
+    10% {
+        transform: scale(1.15);
+    }
+    20% {
+        transform: scale(1.08);
+    }
+    30% {
+        transform: scale(1.18);
+    }
+    40% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 注释：diary-glow-pulse 动画已移除，因为默认状态不再需要光晕效果 */
+
+/* 激活状态光晕动画 - 配合心脏跳动节奏 */
+@keyframes diary-glow-active {
+    0% {
+        opacity: 0.4;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    10% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.3);
+    }
+    20% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    30% {
+        opacity: 0.9;
+        transform: translate(-50%, -50%) scale(1.4);
+    }
+    40%, 100% {
+        opacity: 0.4;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* 子按钮出现动画 - 简洁的缩放效果 */
+@keyframes diary-sub-btn-appear {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) translateY(10px);
+    }
+    60% {
+        opacity: 0.8;
+        transform: scale(1.05) translateY(-1px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .diary-float-icon {
+        font-size: 36px;
+    }
+    
+    .diary-float-sub-btn {
+        padding: 8px;
+    }
+    
+    .diary-float-sub-btn span {
+        font-size: 26px;
+    }
+    
+    /* 移动端子按钮位置调整 */
+    .diary-float-book-btn {
+        top: -45px;
+        left: -8px;
+    }
+    
+    .diary-float-write-btn {
+        top: -30px;
+        left: -48px;
+    }
+    
+    .diary-float-record-btn {
+        top: -30px;
+        left: 35px;
+    }
+}
+
+/* 拖拽时的样式 */
+.diary-float-window.dragging {
+    cursor: grabbing;
+}
+
+.diary-float-window.dragging .diary-float-main-btn {
+    cursor: grabbing;
+    transform: scale(0.9) rotate(-5deg);
+}
+
+.diary-float-window.dragging .diary-float-icon {
+    animation: none;
+    opacity: 0.8;
+}
+`;
+
+// 主按钮美化主题系统
+const BUTTON_THEMES = {
+    heart: {
+        id: 'heart',
+        name: '爱心',
+        description: '温暖的爱心符号，会跳动的粉色心脏',
+        symbol: '❤',
+        css: `
+/* 主按钮基础交互样式 */
+.diary-float-main-btn:hover {
+    transform: translateY(-3px) scale(1.1);
+}
+
+.diary-float-main-btn.diary-float-expanded {
+    transform: scale(1.1);
+}
+
+.diary-float-main-btn.diary-float-expanded:hover {
+    transform: translateY(-3px) scale(1.2);
+}
+
+/* 主按钮图标 - 爱心符号 */
+.diary-float-icon {
+    font-size: 32px;
+    color: #ff6b9d;
+    text-shadow: 
+        0 0 8px rgba(255, 107, 157, 0.6),
+        0 0 16px rgba(255, 107, 157, 0.4),
+        0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    filter: drop-shadow(0 0 6px rgba(255, 107, 157, 0.5));
+    position: relative;
+}
+
+/* 光晕效果（仅在展开状态显示） */
+.diary-float-icon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border-radius: 50%;
+    z-index: -1;
+    transition: all 0.3s ease;
+}
+
+.diary-float-expanded .diary-float-icon {
+    color: #e91e63;
+    animation: diary-heart-beat 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+    text-shadow: 
+        0 0 16px rgba(233, 30, 99, 0.9),
+        0 0 24px rgba(233, 30, 99, 0.7),
+        0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.diary-float-expanded .diary-float-icon::before {
+    background: radial-gradient(circle, rgba(233, 30, 99, 0.4) 0%, transparent 70%);
+    animation: diary-glow-active 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+}
+
+/* 心脏跳动动画 */
+@keyframes diary-heart-beat {
+    0% {
+        transform: scale(1);
+    }
+    10% {
+        transform: scale(1.15);
+    }
+    20% {
+        transform: scale(1.08);
+    }
+    30% {
+        transform: scale(1.18);
+    }
+    40% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 光晕动画 */
+@keyframes diary-glow-active {
+    0% {
+        opacity: 0.4;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    10% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.3);
+    }
+    20% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    30% {
+        opacity: 0.9;
+        transform: translate(-50%, -50%) scale(1.4);
+    }
+    40%, 100% {
+        opacity: 0.4;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .diary-float-icon {
+        font-size: 36px;
+    }
+}
+        `
+    },
+    star: {
+        id: 'star',
+        name: '星星',
+        description: '闪亮的星星符号，会发出温暖的金色光芒',
+        symbol: '⭐',
+        css: `
+/* 主按钮基础交互样式 */
+.diary-float-main-btn:hover {
+    transform: translateY(-3px) scale(1.1);
+}
+
+.diary-float-main-btn.diary-float-expanded {
+    transform: scale(1.1);
+}
+
+.diary-float-main-btn.diary-float-expanded:hover {
+    transform: translateY(-3px) scale(1.2);
+}
+
+/* 主按钮图标 - 星星符号 */
+.diary-float-icon {
+    font-size: 32px;
+    color: #fbbf24;
+    text-shadow: 
+        0 0 12px rgba(251, 191, 36, 0.8),
+        0 0 20px rgba(251, 191, 36, 0.6),
+        0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.6));
+    position: relative;
+}
+
+/* 光晕效果（仅在展开状态显示） */
+.diary-float-icon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border-radius: 50%;
+    z-index: -1;
+    transition: all 0.3s ease;
+}
+
+.diary-float-expanded .diary-float-icon {
+    color: #f59e0b;
+    animation: diary-star-twinkle 1.5s ease-in-out infinite alternate;
+    text-shadow: 
+        0 0 20px rgba(245, 158, 11, 1),
+        0 0 30px rgba(245, 158, 11, 0.8),
+        0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.diary-float-expanded .diary-float-icon::before {
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.5) 0%, transparent 70%);
+    animation: diary-star-glow 1.5s ease-in-out infinite alternate;
+}
+
+/* 星星闪烁动画 */
+@keyframes diary-star-twinkle {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+    50% {
+        transform: scale(1.08) rotate(5deg);
+    }
+    100% {
+        transform: scale(1.15) rotate(0deg);
+    }
+}
+
+/* 星星光晕动画 */
+@keyframes diary-star-glow {
+    0% {
+        opacity: 0.3;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.4);
+    }
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .diary-float-icon {
+        font-size: 36px;
+    }
+}
+        `
+    },
+    flower: {
+        id: 'flower',
+        name: '花朵',
+        description: '优雅的花朵符号，会360度旋转的粉紫色花朵',
+        symbol: '🌸',
+        css: `
+/* 主按钮基础交互样式 */
+.diary-float-main-btn:hover {
+    transform: translateY(-3px) scale(1.1);
+}
+
+.diary-float-main-btn.diary-float-expanded {
+    transform: scale(1.1);
+}
+
+.diary-float-main-btn.diary-float-expanded:hover {
+    transform: translateY(-3px) scale(1.2);
+}
+
+/* 主按钮图标 - 花朵符号 */
+.diary-float-icon {
+    font-size: 32px;
+    color: #ec4899;
+    text-shadow: 
+        0 0 10px rgba(236, 72, 153, 0.7),
+        0 0 18px rgba(236, 72, 153, 0.5),
+        0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    filter: drop-shadow(0 0 6px rgba(236, 72, 153, 0.5));
+    position: relative;
+}
+
+/* 光晕效果（仅在展开状态显示） */
+.diary-float-icon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border-radius: 50%;
+    z-index: -1;
+    transition: all 0.3s ease;
+}
+
+.diary-float-expanded .diary-float-icon {
+    color: #be185d;
+    animation: diary-flower-sway 3s linear infinite;
+    text-shadow: 
+        0 0 16px rgba(190, 24, 93, 0.9),
+        0 0 24px rgba(190, 24, 93, 0.7),
+        0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.diary-float-expanded .diary-float-icon::before {
+    background: radial-gradient(circle, rgba(190, 24, 93, 0.4) 0%, transparent 70%);
+    animation: diary-flower-bloom 2s ease-in-out infinite alternate;
+}
+
+/* 花朵旋转动画 */
+@keyframes diary-flower-sway {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* 花朵绽放动画 */
+@keyframes diary-flower-bloom {
+    0% {
+        opacity: 0.2;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .diary-float-icon {
+        font-size: 36px;
+    }
+}
+        `
+    },
+    moon: {
+        id: 'moon',
+        name: '月亮',
+        description: '神秘的月亮符号，会散发柔和的蓝白色月光',
+        symbol: '🌙',
+        css: `
+/* 主按钮基础交互样式 */
+.diary-float-main-btn:hover {
+    transform: translateY(-3px) scale(1.1);
+}
+
+.diary-float-main-btn.diary-float-expanded {
+    transform: scale(1.1);
+}
+
+.diary-float-main-btn.diary-float-expanded:hover {
+    transform: translateY(-3px) scale(1.2);
+}
+
+/* 主按钮图标 - 月亮符号 */
+.diary-float-icon {
+    font-size: 32px;
+    color: #60a5fa;
+    text-shadow: 
+        0 0 12px rgba(96, 165, 250, 0.8),
+        0 0 20px rgba(96, 165, 250, 0.6),
+        0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.6));
+    position: relative;
+}
+
+/* 光晕效果（仅在展开状态显示） */
+.diary-float-icon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border-radius: 50%;
+    z-index: -1;
+    transition: all 0.3s ease;
+}
+
+.diary-float-expanded .diary-float-icon {
+    color: #1d4ed8;
+    animation: diary-moon-phase 3s ease-in-out infinite;
+    text-shadow: 
+        0 0 18px rgba(29, 78, 216, 0.9),
+        0 0 28px rgba(29, 78, 216, 0.7),
+        0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.diary-float-expanded .diary-float-icon::before {
+    background: radial-gradient(circle, rgba(29, 78, 216, 0.3) 0%, transparent 70%);
+    animation: diary-moon-glow 3s ease-in-out infinite;
+}
+
+/* 月相变化动画 */
+@keyframes diary-moon-phase {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.12);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+}
+
+/* 月光动画 */
+@keyframes diary-moon-glow {
+    0% {
+        opacity: 0.2;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+    100% {
+        opacity: 0.2;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .diary-float-icon {
+        font-size: 36px;
+    }
+}
+        `
+    }
+};
+
+// 插件设置页面通用样式（独立于主题）
+const PLUGIN_SETTINGS_CSS = `
+/* ========== 插件设置页面简洁分栏样式 ========== */
+/* 该部分样式独立于主题，确保在任何主题下设置页面样式保持一致 */
+
+/* 主要设置容器 */
+.diary-plugin-settings {
+    margin: 10px 0;
+}
+
+/* ========== 分栏导航样式 ========== */
+
+/* 分栏容器 */
+.diary-tabs-container {
+    background: linear-gradient(135deg, rgba(176, 196, 222, 0.08), rgba(100, 149, 237, 0.06));
+    border-radius: 8px;
+    border: 1px solid rgba(176, 196, 222, 0.2);
+}
+
+/* 分栏导航栏 */
+.diary-tabs-nav {
+    display: flex;
+    background: rgba(100, 149, 237, 0.05);
+    border-bottom: 1px solid rgba(176, 196, 222, 0.15);
+    padding: 4px;
+    gap: 2px;
+}
+
+/* 分栏按钮 */
+.diary-tab-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 8px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.diary-tab-btn:hover {
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(176, 196, 222, 0.12);
+}
+
+.diary-tab-btn.active {
+    color: #fff;
+    background: rgba(100, 149, 237, 0.2);
+}
+
+.diary-tab-text {
+    font-weight: 600;
+}
+
+/* ========== 分栏内容样式 ========== */
+
+/* 分栏内容容器 */
+.diary-tabs-content {
+    padding: 16px;
+}
+
+/* 分栏面板 */
+.diary-tab-pane {
+    display: none;
+}
+
+.diary-tab-pane.active {
+    display: block;
+}
+
+/* 分栏标题区域 */
+.diary-tab-header {
+    margin-bottom: 20px;
+    padding: 12px;
+    background: rgba(176, 196, 222, 0.08);
+    border-radius: 6px;
+    border: 1px solid rgba(100, 149, 237, 0.15);
+}
+
+.diary-tab-header h3 {
+    margin: 0 0 6px 0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.diary-tab-header p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+}
+
+/* ========== 配置组样式 ========== */
+
+/* 配置组 */
+.diary-config-group {
+    margin-bottom: 20px;
+    background: rgba(176, 196, 222, 0.06);
+    border-radius: 6px;
+    padding: 16px;
+    border: 1px solid rgba(100, 149, 237, 0.12);
+}
+
+.diary-config-group h4 {
+    margin: 0 0 12px 0;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(100, 149, 237, 0.2);
+}
+
+/* 配置项 */
+.diary-config-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    margin: 10px 0;
+}
+
+.diary-config-item:last-child {
+    margin-bottom: 0;
+}
+
+/* 配置标签 */
+.diary-config-label {
+    flex: 1;
+    margin-right: 12px;
+}
+
+.diary-config-title {
+    display: block;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.diary-config-desc {
+    display: block;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+    line-height: 1.3;
+}
+
+/* 配置值 */
+.diary-config-value {
+    flex-shrink: 0;
+}
+
+/* 配置徽章 */
+.diary-config-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    background: rgba(100, 149, 237, 0.25);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* 主题描述特殊样式 */
+.diary-theme-desc {
+    padding-top: 0;
+    border-bottom: none;
+}
+
+.diary-theme-description {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+/* 预设状态特殊样式 */
+.diary-preset-status {
+    padding-top: 0;
+    border-bottom: none;
+}
+
+.diary-preset-info {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* ========== 表单控件样式 ========== */
+
+/* 选择框 */
+.diary-select {
+    padding: 6px 10px;
+    background: rgba(176, 196, 222, 0.12);
+    border: 1px solid rgba(100, 149, 237, 0.3);
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12px;
+    min-width: 120px;
+    transition: all 0.2s ease;
+}
+
+.diary-select:focus {
+    outline: none;
+    border-color: rgba(100, 149, 237, 0.5);
+    background: rgba(176, 196, 222, 0.18);
+}
+
+.diary-select option {
+    background: #2d3748;
+    color: #fff;
+}
+
+/* ========== 按钮样式 ========== */
+
+/* 基础按钮 */
+.diary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* 主要按钮 */
+.diary-btn-primary {
+    background: rgba(102, 126, 234, 0.8);
+    color: #fff;
+}
+
+.diary-btn-primary:hover {
+    background: rgba(102, 126, 234, 1);
+}
+
+/* 次要按钮 */
+.diary-btn-secondary {
+    background: rgba(176, 196, 222, 0.15);
+    color: #fff;
+    border: 1px solid rgba(100, 149, 237, 0.3);
+}
+
+.diary-btn-secondary:hover {
+    background: rgba(176, 196, 222, 0.22);
+}
+
+/* 信息按钮 */
+.diary-btn-info {
+    background: rgba(49, 130, 206, 0.8);
+    color: #fff;
+}
+
+.diary-btn-info:hover {
+    background: rgba(49, 130, 206, 1);
+}
+
+/* ========== 帮助内容样式 ========== */
+
+/* 帮助内容容器 */
+.diary-help-content {
+    background: rgba(176, 196, 222, 0.04);
+    border-radius: 6px;
+    padding: 16px;
+    border: 1px solid rgba(100, 149, 237, 0.08);
+}
+
+/* 帮助章节 */
+.diary-help-section {
+    margin-bottom: 16px;
+}
+
+.diary-help-section:last-child {
+    margin-bottom: 0;
+}
+
+.diary-help-section h5 {
+    margin: 0 0 8px 0;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.diary-help-section ul {
+    margin: 0;
+    padding-left: 16px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.diary-help-section li {
+    margin-bottom: 4px;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.diary-help-section li:last-child {
+    margin-bottom: 0;
+}
+
+.diary-help-section strong {
+    color: #fff;
+    font-weight: 600;
+}
+
+/* ========== 响应式设计 ========== */
+
+/* 移动设备 */
+@media (max-width: 768px) {
+    .diary-tabs-nav {
+        flex-direction: column;
+        gap: 2px;
+        padding: 6px;
+    }
+    
+    .diary-tab-btn {
+        padding: 12px;
+        justify-content: flex-start;
+    }
+    
+    .diary-config-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 0;
+    }
+    
+    .diary-config-label {
+        margin-right: 0;
+    }
+    
+    .diary-config-value {
+        width: 100%;
+    }
+    
+    .diary-select, .diary-btn {
+        width: 100%;
+    }
+}
+
+/* 抽屉展开状态的额外样式 */
+.inline-drawer-content .diary-plugin-settings {
+    padding: 5px 0;
+}
+`;
+
+// 加载悬浮窗按钮通用样式（独立于主题）
+function loadFloatWindowStyle() {
+    console.log('🎨 加载悬浮窗基础样式和子按钮样式');
+    
+    // 移除旧的悬浮窗样式（如果存在）
+    if (floatWindowStyleLink) {
+        floatWindowStyleLink.remove();
+        floatWindowStyleLink = null;
+    }
+    
+    // 创建样式元素（基础样式 + 子按钮样式）
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.id = 'diary-float-window-css';
+    style.textContent = FLOAT_WINDOW_BASE_CSS + SUB_BUTTONS_CSS;
+    
+    // 添加到head
+    document.head.appendChild(style);
+    floatWindowStyleLink = style;
+    
+    console.log('✅ 悬浮窗基础样式和子按钮样式已加载');
+}
+
+// 加载按钮美化主题样式
+function loadButtonThemeStyle() {
+    const selectedButtonTheme = extension_settings[extensionName].selectedButtonTheme || 'heart';
+    console.log(`🎨 加载按钮美化主题: ${selectedButtonTheme}`);
+    
+    // 移除旧的按钮主题样式（如果存在）
+    if (buttonThemeStyleLink) {
+        buttonThemeStyleLink.remove();
+        buttonThemeStyleLink = null;
+    }
+    
+    // 获取选中的按钮主题
+    const buttonTheme = BUTTON_THEMES[selectedButtonTheme];
+    if (!buttonTheme) {
+        console.error(`❌ 未找到按钮主题: ${selectedButtonTheme}`);
+        return;
+    }
+    
+    // 更新悬浮窗的符号
+    const floatIcon = document.querySelector('.diary-float-icon');
+    if (floatIcon) {
+        floatIcon.textContent = buttonTheme.symbol;
+    }
+    
+    // 创建样式元素
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.id = 'diary-button-theme-css';
+    style.textContent = buttonTheme.css;
+    
+    // 添加到head
+    document.head.appendChild(style);
+    buttonThemeStyleLink = style;
+    
+    console.log(`✅ 按钮美化主题 ${buttonTheme.name} 已加载`);
+}
+
+// 加载插件设置页面通用样式（独立于主题）
+function loadPluginSettingsStyle() {
+    console.log('🎨 加载插件设置页面通用样式');
+    
+    // 移除旧的设置样式（如果存在）
+    if (pluginSettingsStyleLink) {
+        pluginSettingsStyleLink.remove();
+        pluginSettingsStyleLink = null;
+    }
+    
+    // 创建样式元素
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.id = 'diary-plugin-settings-css';
+    style.textContent = PLUGIN_SETTINGS_CSS;
+    
+    // 添加到head
+    document.head.appendChild(style);
+    pluginSettingsStyleLink = style;
+    
+    console.log('✅ 插件设置页面通用样式已加载');
+}
 
 // 加载主题CSS
 function loadTheme(themeId) {
@@ -170,6 +1276,71 @@ function updateThemeUI() {
     }
 }
 
+// 初始化按钮美化选择器
+function initButtonThemeSelector() {
+    const $select = $('#diary_button_theme_select');
+    $select.empty();
+    
+    // 添加所有按钮美化选项
+    Object.values(BUTTON_THEMES).forEach(buttonTheme => {
+        const option = $('<option>')
+            .val(buttonTheme.id)
+            .text(`${buttonTheme.symbol} ${buttonTheme.name}`);
+        $select.append(option);
+    });
+    
+    // 设置当前选中的按钮美化
+    const settings = getCurrentSettings();
+    const currentButtonTheme = settings.selectedButtonTheme || 'heart';
+    $select.val(currentButtonTheme);
+    
+    // 绑定切换事件
+    $select.off('change').on('change', function() {
+        const buttonThemeId = $(this).val();
+        switchButtonTheme(buttonThemeId);
+    });
+    
+    console.log('✅ 按钮美化选择器初始化完成');
+}
+
+// 更新按钮美化UI显示
+function updateButtonThemeUI() {
+    const settings = getCurrentSettings();
+    const currentButtonTheme = settings.selectedButtonTheme || 'heart';
+    const buttonTheme = BUTTON_THEMES[currentButtonTheme];
+    
+    if (buttonTheme) {
+        // 更新选择器
+        $('#diary_button_theme_select').val(currentButtonTheme);
+        
+        // 更新按钮美化描述
+        $('#diary_button_theme_description').text(buttonTheme.description);
+    }
+}
+
+// 切换按钮美化主题
+function switchButtonTheme(buttonThemeId) {
+    if (!BUTTON_THEMES[buttonThemeId]) {
+        console.error(`❌ 未找到按钮美化主题: ${buttonThemeId}`);
+        return;
+    }
+    
+    // 保存设置
+    extension_settings[extensionName].selectedButtonTheme = buttonThemeId;
+    saveSettingsDebounced();
+    
+    // 加载新的按钮美化
+    loadButtonThemeStyle();
+    
+    // 更新UI
+    updateButtonThemeUI();
+    
+    console.log(`✅ 已切换到按钮美化主题: ${BUTTON_THEMES[buttonThemeId].name}`);
+    
+    // 显示切换成功的提示
+    toastr.success(`已切换到 ${BUTTON_THEMES[buttonThemeId].name} 按钮样式`, '按钮美化');
+}
+
 // 加载插件设置
 async function loadSettings() {
     // 初始化设置
@@ -178,11 +1349,20 @@ async function loadSettings() {
         Object.assign(extension_settings[extensionName], defaultSettings);
     }
     
+    // 加载通用样式（独立于主题）
+    loadFloatWindowStyle();
+    loadPluginSettingsStyle();
+    
     // 加载保存的主题（或使用默认主题）
     const settings = getCurrentSettings();
     const selectedTheme = settings.selectedTheme || 'classic';
     loadTheme(selectedTheme);
     console.log(`📖 已加载主题: ${THEMES[selectedTheme]?.name || selectedTheme}`);
+    
+    // 加载保存的按钮美化主题（或使用默认主题）
+    const selectedButtonTheme = settings.selectedButtonTheme || 'heart';
+    loadButtonThemeStyle();
+    console.log(`❤ 已加载按钮美化: ${BUTTON_THEMES[selectedButtonTheme]?.name || selectedButtonTheme}`);
 
     // 更新UI显示
     updateSettingsUI();
@@ -197,6 +1377,12 @@ function updateSettingsUI() {
     
     // 更新主题UI
     updateThemeUI();
+    
+    // 初始化按钮美化选择器
+    initButtonThemeSelector();
+    
+    // 更新按钮美化UI
+    updateButtonThemeUI();
     
     // 更新各种设置控件的状态
     
@@ -507,18 +1693,6 @@ function isMobileDevice() {
            (navigator.maxTouchPoints > 0);
 }
 
-// 显示插件状态
-function showPluginStatus() {
-    const settings = getCurrentSettings();
-    console.log('📊 日记本插件状态:', {
-        世界书名称: DIARY_WORLDBOOK_NAME,
-        当前预设: settings.selectedPreset || '未配置',
-        悬浮窗可见: settings.floatWindowVisible,
-        悬浮窗位置: settings.floatWindowPosition,
-        移动端环境: isMobileDevice()
-    });
-}
-
 // 获取最新的聊天消息
 function getLatestMessage() {
     try {
@@ -745,7 +1919,7 @@ async function saveDiaryToWorldbook(diaryData, characterName = null) {
 // ===== 悬浮窗功能 =====
 
 // 悬浮窗状态管理
-let floatWindow = {
+const floatWindow = {
     element: null,
     isExpanded: false,
     isDragging: false,
@@ -961,7 +2135,7 @@ function toggleFloatWindow() {
     
     if (newState) {
         $('#diary-float-window').show();
-        toastr.info('悬浮窗已显示', '日记本');
+        toastr.info('悬浮窗已显示', '日记本')
     } else {
         $('#diary-float-window').hide();
         closeFloatMenu();
@@ -1052,7 +2226,7 @@ function resetFloatWindowPosition() {
     // 恢复原始可见状态
     if (wasHidden) {
         floatWindow.element.hide().css('visibility', originalVisibility);
-        console.log('👁️ 已恢复原始可见状态');
+        console.log('已恢复原始可见状态');
     }
     
     // 保存新位置到设置
@@ -1500,7 +2674,7 @@ async function restoreOriginalPreset(originalPresetName) {
         
         presetManager.selectPreset(originalPresetValue);
         
-        toastr.info(`已恢复原预设: ${originalPresetName}`, '预设恢复', { timeOut: 2000 });
+
         console.log(`✅ 预设已恢复: ${originalPresetName}`);
         
     } catch (error) {
@@ -2393,6 +3567,48 @@ function formatDiaryContent(content) {
     return formattedContent;
 }
 
+// ===== 设置页面分栏切换功能 =====
+
+// 切换分栏标签
+function switchSettingsTab(targetTab) {
+    console.log(`🔄 切换设置分栏: ${targetTab}`);
+    
+    try {
+        // 移除所有活动状态
+        $('.diary-tab-btn').removeClass('active');
+        $('.diary-tab-pane').removeClass('active');
+        
+        // 设置新的活动状态
+        $(`.diary-tab-btn[data-tab="${targetTab}"]`).addClass('active');
+        $(`#diary-tab-${targetTab}`).addClass('active');
+        
+        console.log(`✅ 分栏切换完成: ${targetTab}`);
+    } catch (error) {
+        console.error(`❌ 分栏切换失败:`, error);
+    }
+}
+
+// 绑定设置页面分栏事件
+function bindSettingsTabEvents() {
+    console.log('🔗 绑定设置页面分栏事件...');
+    
+    // 绑定分栏按钮点击事件
+    $(document).on('click', '.diary-tab-btn', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const targetTab = $(this).data('tab');
+        if (targetTab) {
+            switchSettingsTab(targetTab);
+        }
+    });
+    
+    // 初始化时显示第一个分栏
+    switchSettingsTab('config');
+    
+    console.log('✅ 设置页面分栏事件绑定完成');
+}
+
 // 插件初始化
 jQuery(async () => {
     console.log('🚀 日记本插件开始初始化...');
@@ -2410,10 +3626,15 @@ jQuery(async () => {
         $("#diary_toggle_float_window").on("click", toggleFloatWindow);
         $("#diary_reset_float_position").on("click", resetFloatWindowPosition);
         $("#diary_configure_presets").on("click", configurePresets);
-        $("#diary_show_status").on("click", showPluginStatus);
+        
+        // 绑定设置页面分栏切换事件
+        bindSettingsTabEvents();
         
         // 加载设置
         await loadSettings();
+        
+        // 加载插件设置页面通用样式（独立于主题）
+        loadPluginSettingsStyle();
         
         // 创建悬浮窗
         createFloatWindow();
@@ -2446,15 +3667,6 @@ jQuery(async () => {
         
         console.log('✅ 日记本插件初始化完成');
         
-        // 显示初始化完成提示
-        if (isMobileDevice()) {
-            toastr.success('日记本插件已加载 (移动端模式)', '插件已就绪');
-        } else {
-            toastr.success('日记本插件已加载', '插件已就绪');
-        }
-        
-        // 显示插件状态
-        showPluginStatus();
         
     } catch (error) {
         console.error('❌ 日记本插件初始化失败:', error);
