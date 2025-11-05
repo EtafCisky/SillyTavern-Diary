@@ -345,7 +345,7 @@ const BUTTON_THEMES = {
         id: 'heart',
         name: '爱心',
         description: '温暖的爱心符号，会跳动的粉色心脏',
-        symbol: '♡',
+        symbol: '♥',
         css: `
 /* 主按钮基础交互样式 */
 .diary-float-main-btn:hover {
@@ -371,6 +371,8 @@ const BUTTON_THEMES = {
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     filter: drop-shadow(0 0 6px rgba(255, 107, 157, 0.5));
     position: relative;
+    /* 水平拉伸♥符号，让它看起来和❤一样宽 */
+    transform: scaleX(1.2);
 }
 
 /* 光晕效果（仅在展开状态显示） */
@@ -405,22 +407,22 @@ const BUTTON_THEMES = {
 /* 心脏跳动动画 */
 @keyframes diary-heart-beat {
     0% {
-        transform: scale(1);
+        transform: scaleX(1.2) scale(1);
     }
     10% {
-        transform: scale(1.15);
+        transform: scaleX(1.2) scale(1.15);
     }
     20% {
-        transform: scale(1.08);
+        transform: scaleX(1.2) scale(1.08);
     }
     30% {
-        transform: scale(1.18);
+        transform: scaleX(1.2) scale(1.18);
     }
     40% {
-        transform: scale(1);
+        transform: scaleX(1.2) scale(1);
     }
     100% {
-        transform: scale(1);
+        transform: scaleX(1.2) scale(1);
     }
 }
 
@@ -452,6 +454,8 @@ const BUTTON_THEMES = {
 @media (max-width: 768px) {
     .diary-float-icon {
         font-size: 36px;
+        /* 移动端也保持水平拉伸效果 */
+        transform: scaleX(1.2);
     }
 }
         `
