@@ -76,6 +76,16 @@ let buttonThemeStyleLink = null;
 const FLOAT_WINDOW_BASE_CSS = `
 /* ========== 悬浮窗基础样式 ========== */
 
+/* 统一emoji字体设置 - 确保跨平台一致性 */
+.diary-emoji-unified {
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 /* 悬浮窗主容器 */
 .diary-float-window {
     position: fixed;
@@ -132,20 +142,6 @@ const FLOAT_WINDOW_BASE_CSS = `
 const SUB_BUTTONS_CSS = `
 /* ========== 子按钮样式 ========== */
 
-/* Font Awesome备选方案 - 如果图标字体未加载，显示emoji */
-.diary-float-icon::before {
-    font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Pro', sans-serif;
-    font-weight: 900;
-}
-
-/* 如果Font Awesome未加载，显示data-symbol中的emoji */
-@supports not (font-family: 'Font Awesome 5 Free') {
-    .diary-float-icon::after {
-        content: attr(data-symbol);
-        font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
-    }
-}
-
 /* 子按钮基础样式 - 纯符号设计 */
 .diary-float-sub-btn {
     position: absolute;
@@ -168,57 +164,72 @@ const SUB_BUTTONS_CSS = `
     transform: translateY(-2px) scale(1.1);
 }
 
-.diary-float-sub-btn i {
-    font-size: 20px;
+.diary-float-sub-btn span {
+    font-size: 24px;
     color: #6b7280;
     text-shadow: 
         0 0 6px rgba(107, 114, 128, 0.4),
         0 2px 4px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    /* 统一emoji字体 */
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.diary-float-sub-btn:hover i {
+.diary-float-sub-btn:hover span {
     color: #4b5563;
     transform: scale(1.15);
     text-shadow: 
         0 0 8px rgba(75, 85, 99, 0.6),
         0 2px 6px rgba(0, 0, 0, 0.3);
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+    /* 保持统一emoji字体 */
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
 }
 
 /* 为不同功能按钮设置特色颜色 */
-.diary-float-book-btn i {
+.diary-float-book-btn span {
     color: #3b82f6;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
 }
 
-.diary-float-book-btn:hover i {
+.diary-float-book-btn:hover span {
     color: #1d4ed8;
     text-shadow: 
         0 0 8px rgba(59, 130, 246, 0.6),
         0 2px 6px rgba(0, 0, 0, 0.3);
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
 }
 
-.diary-float-write-btn i {
+.diary-float-write-btn span {
     color: #f59e0b;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
 }
 
-.diary-float-write-btn:hover i {
+.diary-float-write-btn:hover span {
     color: #d97706;
     text-shadow: 
         0 0 8px rgba(245, 158, 11, 0.6),
         0 2px 6px rgba(0, 0, 0, 0.3);
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
 }
 
-.diary-float-record-btn i {
+.diary-float-record-btn span {
     color: #10b981;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
 }
 
-.diary-float-record-btn:hover i {
+.diary-float-record-btn:hover span {
     color: #059669;
     text-shadow: 
         0 0 8px rgba(16, 185, 129, 0.6),
         0 2px 6px rgba(0, 0, 0, 0.3);
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
 }
 
 /* 子按钮位置 - 围绕主按钮排列 */
@@ -316,8 +327,10 @@ const SUB_BUTTONS_CSS = `
         padding: 8px;
     }
     
-    .diary-float-sub-btn i {
-        font-size: 22px;
+    .diary-float-sub-btn span {
+        font-size: 26px;
+        /* 确保移动端子按钮也使用统一emoji字体 */
+        font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
     }
     
     /* 移动端子按钮位置调整 */
@@ -358,9 +371,8 @@ const BUTTON_THEMES = {
     heart: {
         id: 'heart',
         name: '爱心',
-        description: '温暖的爱心图标，会跳动的粉色心脏',
+        description: '温暖的爱心符号，会跳动的粉色心脏',
         symbol: '❤',
-        iconClass: 'fas fa-heart',
         css: `
 /* 主按钮基础交互样式 */
 .diary-float-main-btn:hover {
@@ -386,6 +398,13 @@ const BUTTON_THEMES = {
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     filter: drop-shadow(0 0 6px rgba(255, 107, 157, 0.5));
     position: relative;
+    /* 统一emoji字体 */
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* 光晕效果（仅在展开状态显示） */
@@ -467,6 +486,8 @@ const BUTTON_THEMES = {
 @media (max-width: 768px) {
     .diary-float-icon {
         font-size: 36px;
+        /* 确保移动端也使用统一emoji字体 */
+        font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
     }
 }
         `
@@ -474,9 +495,8 @@ const BUTTON_THEMES = {
     star: {
         id: 'star',
         name: '星星',
-        description: '闪亮的星星图标，会发出温暖的金色光芒',
+        description: '闪亮的星星符号，会发出温暖的金色光芒',
         symbol: '⭐',
-        iconClass: 'fas fa-star',
         css: `
 /* 主按钮基础交互样式 */
 .diary-float-main-btn:hover {
@@ -502,6 +522,13 @@ const BUTTON_THEMES = {
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.6));
     position: relative;
+    /* 统一emoji字体 */
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* 光晕效果（仅在展开状态显示） */
@@ -562,6 +589,8 @@ const BUTTON_THEMES = {
 @media (max-width: 768px) {
     .diary-float-icon {
         font-size: 36px;
+        /* 确保移动端也使用统一emoji字体 */
+        font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
     }
 }
         `
@@ -569,9 +598,8 @@ const BUTTON_THEMES = {
     flower: {
         id: 'flower',
         name: '花朵',
-        description: '优雅的花朵图标，会360度旋转的粉紫色花朵',
+        description: '优雅的花朵符号，会360度旋转的粉紫色花朵',
         symbol: '🌸',
-        iconClass: 'fas fa-leaf',
         css: `
 /* 主按钮基础交互样式 */
 .diary-float-main-btn:hover {
@@ -597,6 +625,13 @@ const BUTTON_THEMES = {
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     filter: drop-shadow(0 0 6px rgba(236, 72, 153, 0.5));
     position: relative;
+    /* 统一emoji字体 */
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* 光晕效果（仅在展开状态显示） */
@@ -654,6 +689,8 @@ const BUTTON_THEMES = {
 @media (max-width: 768px) {
     .diary-float-icon {
         font-size: 36px;
+        /* 确保移动端也使用统一emoji字体 */
+        font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
     }
 }
         `
@@ -661,9 +698,8 @@ const BUTTON_THEMES = {
     moon: {
         id: 'moon',
         name: '月亮',
-        description: '神秘的月亮图标，会散发柔和的蓝白色月光',
+        description: '神秘的月亮符号，会散发柔和的蓝白色月光',
         symbol: '🌙',
-        iconClass: 'fas fa-moon',
         css: `
 /* 主按钮基础交互样式 */
 .diary-float-main-btn:hover {
@@ -689,6 +725,13 @@ const BUTTON_THEMES = {
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.6));
     position: relative;
+    /* 统一emoji字体 */
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* 光晕效果（仅在展开状态显示） */
@@ -756,6 +799,8 @@ const BUTTON_THEMES = {
 @media (max-width: 768px) {
     .diary-float-icon {
         font-size: 36px;
+        /* 确保移动端也使用统一emoji字体 */
+        font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "Twemoji Mozilla", "EmojiOne Color", "Symbola", sans-serif;
     }
 }
         `
@@ -1155,20 +1200,10 @@ function loadButtonThemeStyle() {
         return;
     }
     
-    // 更新悬浮窗的图标
+    // 更新悬浮窗的符号
     const floatIcon = document.querySelector('.diary-float-icon');
     if (floatIcon) {
-        // 清除所有Font Awesome类名
-        floatIcon.className = 'diary-float-icon';
-        
-        // 添加新的图标类名
-        if (buttonTheme.iconClass) {
-            floatIcon.className += ' ' + buttonTheme.iconClass;
-        }
-        
-        // 保留符号作为备选（如果图标加载失败）
-        floatIcon.textContent = '';
-        floatIcon.setAttribute('data-symbol', buttonTheme.symbol);
+        floatIcon.textContent = buttonTheme.symbol;
     }
     
     // 创建样式元素
