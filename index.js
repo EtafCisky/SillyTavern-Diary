@@ -40,6 +40,7 @@ const defaultSettings = {
     selectedPreset: null,          // 用户选择的日记预设
     selectedTheme: 'classic',      // 选中的主题（默认为经典主题）
     selectedButtonTheme: 'heart',  // 选中的按钮美化（默认为爱心）
+    fontColorMode: 'light',        // 字体颜色模式（light: 浅色字体, dark: 深色字体）
     floatWindowVisible: true,      // 悬浮窗是否可见
     floatWindowPosition: {         // 悬浮窗位置（将在初始化时计算屏幕中央位置）
         x: 0,
@@ -345,7 +346,7 @@ const BUTTON_THEMES = {
         id: 'heart',
         name: '爱心',
         description: '温暖的爱心符号，会跳动的粉色心脏',
-        symbol: '♥',
+        symbol: '❤',
         css: `
 /* 主按钮基础交互样式 */
 .diary-float-main-btn:hover {
@@ -371,8 +372,6 @@ const BUTTON_THEMES = {
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     filter: drop-shadow(0 0 6px rgba(255, 107, 157, 0.5));
     position: relative;
-    /* 水平拉伸♥符号，让它看起来和❤一样宽 */
-    transform: scaleX(1.3);
 }
 
 /* 光晕效果（仅在展开状态显示） */
@@ -407,22 +406,22 @@ const BUTTON_THEMES = {
 /* 心脏跳动动画 */
 @keyframes diary-heart-beat {
     0% {
-        transform: scaleX(1.3) scale(1);
+        transform: scale(1);
     }
     10% {
-        transform: scaleX(1.4) scale(1.15);
+        transform: scale(1.15);
     }
     20% {
-        transform: scaleX(1.4) scale(1.08);
+        transform: scale(1.08);
     }
     30% {
-        transform: scaleX(1.4) scale(1.18);
+        transform: scale(1.18);
     }
     40% {
-        transform: scaleX(1.4) scale(1);
+        transform: scale(1);
     }
     100% {
-        transform: scaleX(1.4) scale(1);
+        transform: scale(1);
     }
 }
 
@@ -454,8 +453,6 @@ const BUTTON_THEMES = {
 @media (max-width: 768px) {
     .diary-float-icon {
         font-size: 36px;
-        /* 移动端也保持水平拉伸效果 */
-        transform: scaleX(1.3);
     }
 }
         `
@@ -1098,6 +1095,73 @@ const PLUGIN_SETTINGS_CSS = `
 .inline-drawer-content .diary-plugin-settings {
     padding: 5px 0;
 }
+
+/* ========== 深色字体主题 ========== */
+/* 为提高在浅色背景下的可读性，提供深色字体选项 */
+
+.diary-plugin-settings.dark-font .diary-tab-btn {
+    color: rgba(26, 32, 44, 0.7);
+}
+
+.diary-plugin-settings.dark-font .diary-tab-btn:hover {
+    color: rgba(26, 32, 44, 0.9);
+}
+
+.diary-plugin-settings.dark-font .diary-tab-btn.active {
+    color: #1a202c;
+}
+
+.diary-plugin-settings.dark-font .diary-tab-header h3 {
+    color: #1a202c;
+}
+
+.diary-plugin-settings.dark-font .diary-tab-header p {
+    color: rgba(26, 32, 44, 0.6);
+}
+
+.diary-plugin-settings.dark-font .diary-config-group h4 {
+    color: #1a202c;
+}
+
+.diary-plugin-settings.dark-font .diary-config-title {
+    color: #1a202c;
+}
+
+.diary-plugin-settings.dark-font .diary-config-desc {
+    color: rgba(26, 32, 44, 0.5);
+}
+
+.diary-plugin-settings.dark-font .diary-config-badge {
+    color: #1a202c;
+}
+
+.diary-plugin-settings.dark-font .diary-theme-description {
+    color: rgba(26, 32, 44, 0.6);
+}
+
+.diary-plugin-settings.dark-font .diary-preset-info {
+    color: rgba(26, 32, 44, 0.6);
+}
+
+.diary-plugin-settings.dark-font .diary-select {
+    color: #1a202c;
+}
+
+.diary-plugin-settings.dark-font .diary-btn-secondary {
+    color: #1a202c;
+}
+
+.diary-plugin-settings.dark-font .diary-help-section h5 {
+    color: #1a202c;
+}
+
+.diary-plugin-settings.dark-font .diary-help-section ul {
+    color: rgba(26, 32, 44, 0.7);
+}
+
+.diary-plugin-settings.dark-font .diary-help-section strong {
+    color: #1a202c;
+}
 `;
 
 // 加载悬浮窗按钮通用样式（独立于主题）
@@ -1345,6 +1409,84 @@ function switchButtonTheme(buttonThemeId) {
     toastr.success(`已切换到 ${BUTTON_THEMES[buttonThemeId].name} 按钮样式`, '按钮美化');
 }
 
+// 初始化字体颜色选择器
+function initFontColorSelector() {
+    const $select = $('#diary_font_color_select');
+    
+    // 设置当前选中的字体颜色
+    const settings = getCurrentSettings();
+    const currentFontColorMode = settings.fontColorMode || 'light';
+    $select.val(currentFontColorMode);
+    
+    // 绑定切换事件
+    $select.off('change').on('change', function() {
+        const fontColorMode = $(this).val();
+        switchFontColorMode(fontColorMode);
+    });
+    
+    console.log('✅ 字体颜色选择器初始化完成');
+}
+
+// 更新字体颜色UI显示
+function updateFontColorUI() {
+    const settings = getCurrentSettings();
+    const currentFontColorMode = settings.fontColorMode || 'light';
+    
+    // 更新选择器
+    $('#diary_font_color_select').val(currentFontColorMode);
+    
+    // 更新字体颜色描述
+    const descriptions = {
+        'light': '当前使用浅色字体，适合深色背景环境',
+        'dark': '当前使用深色字体，适合浅色背景环境'
+    };
+    $('#diary_font_color_description').text(descriptions[currentFontColorMode]);
+}
+
+// 切换字体颜色模式
+function switchFontColorMode(fontColorMode) {
+    if (!['light', 'dark'].includes(fontColorMode)) {
+        console.error(`❌ 无效的字体颜色模式: ${fontColorMode}`);
+        return;
+    }
+    
+    // 保存设置
+    extension_settings[extensionName].fontColorMode = fontColorMode;
+    saveSettingsDebounced();
+    
+    // 应用字体颜色
+    applyFontColorMode();
+    
+    // 更新UI
+    updateFontColorUI();
+    
+    console.log(`✅ 已切换到字体颜色模式: ${fontColorMode}`);
+    
+    // 显示切换成功的提示
+    const modeNames = {
+        'light': '浅色字体',
+        'dark': '深色字体'
+    };
+    toastr.success(`已切换到 ${modeNames[fontColorMode]}`, '字体颜色');
+}
+
+// 应用字体颜色模式
+function applyFontColorMode() {
+    const settings = getCurrentSettings();
+    const fontColorMode = settings.fontColorMode || 'light';
+    const $pluginSettings = $('.diary-plugin-settings');
+    
+    // 移除旧的字体颜色类
+    $pluginSettings.removeClass('dark-font');
+    
+    // 应用新的字体颜色类
+    if (fontColorMode === 'dark') {
+        $pluginSettings.addClass('dark-font');
+    }
+    
+    console.log(`🎨 已应用字体颜色模式: ${fontColorMode}`);
+}
+
 // 加载插件设置
 async function loadSettings() {
     // 初始化设置
@@ -1368,6 +1510,9 @@ async function loadSettings() {
     loadButtonThemeStyle();
     console.log(`❤ 已加载按钮美化: ${BUTTON_THEMES[selectedButtonTheme]?.name || selectedButtonTheme}`);
 
+    // 应用字体颜色模式
+    applyFontColorMode();
+
     // 更新UI显示
     updateSettingsUI();
 }
@@ -1387,6 +1532,15 @@ function updateSettingsUI() {
     
     // 更新按钮美化UI
     updateButtonThemeUI();
+    
+    // 初始化字体颜色选择器
+    initFontColorSelector();
+    
+    // 更新字体颜色UI
+    updateFontColorUI();
+    
+    // 应用字体颜色模式
+    applyFontColorMode();
     
     // 更新各种设置控件的状态
     

@@ -134,6 +134,26 @@
                                 <span id="diary_button_theme_description" class="diary-theme-description">按钮样式说明</span>
                             </div>
                         </div>
+                        
+                        <!-- 字体颜色设置 -->
+                        <div class="diary-config-group">
+                            <h4>字体颜色</h4>
+                            <div class="diary-config-item">
+                                <div class="diary-config-label">
+                                    <span class="diary-config-title">设置页面字体颜色</span>
+                                    <span class="diary-config-desc">调整设置页面的字体颜色以适配不同背景</span>
+                                </div>
+                                <div class="diary-config-value">
+                                    <select id="diary_font_color_select" class="diary-select">
+                                        <option value="light">浅色字体 (适用于深色背景)</option>
+                                        <option value="dark">深色字体 (适用于浅色背景)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="diary-config-item diary-font-color-desc">
+                                <span id="diary_font_color_description" class="diary-theme-description">当前使用浅色字体，适合深色背景环境</span>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- 使用帮助栏 -->
@@ -191,9 +211,9 @@
 
 <!-- 悬浮窗 -->
 <div id="diary-float-window" class="diary-float-window" style="display: none;">
-            <div class="diary-float-main-btn" id="diary-float-main-btn">
-                <span class="diary-float-icon">♥</span>
-            </div>
+    <div class="diary-float-main-btn" id="diary-float-main-btn">
+        <span class="diary-float-icon">❤</span>
+    </div>
     <div class="diary-float-menu" id="diary-float-menu" style="display: none;">
         <div class="diary-float-sub-btn diary-float-book-btn" id="diary-float-book-btn" title="日记本">
             <span>📖</span>
