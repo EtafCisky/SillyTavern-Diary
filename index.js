@@ -410,19 +410,19 @@ const BUTTON_THEMES = {
         transform: scaleX(1.3) scale(1);
     }
     10% {
-        transform: scaleX(1.3) scale(1.15);
+        transform: scaleX(1.4) scale(1.15);
     }
     20% {
-        transform: scaleX(1.3) scale(1.08);
+        transform: scaleX(1.4) scale(1.08);
     }
     30% {
-        transform: scaleX(1.3) scale(1.18);
+        transform: scaleX(1.4) scale(1.18);
     }
     40% {
-        transform: scaleX(1.3) scale(1);
+        transform: scaleX(1.4) scale(1);
     }
     100% {
-        transform: scaleX(1.3) scale(1);
+        transform: scaleX(1.4) scale(1);
     }
 }
 
