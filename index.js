@@ -372,7 +372,7 @@ const BUTTON_THEMES = {
     filter: drop-shadow(0 0 6px rgba(255, 107, 157, 0.5));
     position: relative;
     /* 水平拉伸♥符号，让它看起来和❤一样宽 */
-    transform: scaleX(1.2);
+    transform: scaleX(1.3);
 }
 
 /* 光晕效果（仅在展开状态显示） */
@@ -407,22 +407,22 @@ const BUTTON_THEMES = {
 /* 心脏跳动动画 */
 @keyframes diary-heart-beat {
     0% {
-        transform: scaleX(1.2) scale(1);
+        transform: scaleX(1.3) scale(1);
     }
     10% {
-        transform: scaleX(1.2) scale(1.15);
+        transform: scaleX(1.3) scale(1.15);
     }
     20% {
-        transform: scaleX(1.2) scale(1.08);
+        transform: scaleX(1.3) scale(1.08);
     }
     30% {
-        transform: scaleX(1.2) scale(1.18);
+        transform: scaleX(1.3) scale(1.18);
     }
     40% {
-        transform: scaleX(1.2) scale(1);
+        transform: scaleX(1.3) scale(1);
     }
     100% {
-        transform: scaleX(1.2) scale(1);
+        transform: scaleX(1.3) scale(1);
     }
 }
 
@@ -454,61 +454,8 @@ const BUTTON_THEMES = {
 @media (max-width: 768px) {
     .diary-float-icon {
         font-size: 36px;
-        /* 移动端需要更大的水平拉伸效果 */
-        transform: scaleX(1.6) !important;
-    }
-    
-    /* 移动端心跳动画也要加强拉伸 */
-    @keyframes diary-heart-beat {
-        0% {
-            transform: scaleX(1.6) scale(1);
-        }
-        10% {
-            transform: scaleX(1.6) scale(1.15);
-        }
-        20% {
-            transform: scaleX(1.6) scale(1.08);
-        }
-        30% {
-            transform: scaleX(1.6) scale(1.18);
-        }
-        40% {
-            transform: scaleX(1.6) scale(1);
-        }
-        100% {
-            transform: scaleX(1.6) scale(1);
-        }
-    }
-}
-
-/* 小屏手机进一步优化 */
-@media (max-width: 480px) {
-    .diary-float-icon {
-        font-size: 34px;
-        /* 小屏手机需要更强的水平拉伸 */
-        transform: scaleX(1.8) !important;
-    }
-    
-    /* 小屏手机心跳动画 */
-    @keyframes diary-heart-beat {
-        0% {
-            transform: scaleX(1.8) scale(1);
-        }
-        10% {
-            transform: scaleX(1.8) scale(1.15);
-        }
-        20% {
-            transform: scaleX(1.8) scale(1.08);
-        }
-        30% {
-            transform: scaleX(1.8) scale(1.18);
-        }
-        40% {
-            transform: scaleX(1.8) scale(1);
-        }
-        100% {
-            transform: scaleX(1.8) scale(1);
-        }
+        /* 移动端也保持水平拉伸效果 */
+        transform: scaleX(1.3);
     }
 }
         `
