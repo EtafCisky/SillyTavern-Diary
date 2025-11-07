@@ -25,6 +25,12 @@ const THEMES = {
         name: '简洁',
         description: '现代简约设计，清爽的界面和流畅的交互体验',
         cssFile: 'style-simple.css'
+    },
+    night: {
+        id: 'night',
+        name: '夜间',
+        description: '护眼的夜间主题，以深色调为主，金色点缀，温和的光效保护您的眼睛',
+        cssFile: 'style-night.css'
     }
     // 未来可以在这里添加更多主题
     // future_theme: {
