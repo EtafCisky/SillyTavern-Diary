@@ -1727,6 +1727,12 @@
 /* === 移动端适配 === */
 
 @media (max-width: 768px) {
+    /* === 日记本弹窗移动端适配 === */
+    .diary-book-dialog {
+        height: 100vh !important;
+        height: 100dvh !important;
+    }
+    
     .diary-book-cover-content {
         padding: 30px 20px;
     }
@@ -1783,7 +1789,8 @@
     
     /* === 自定义角色弹窗移动端适配 === */
     .diary-custom-character-dialog {
-        padding: 20px;
+        height: 100vh !important;
+        height: 100dvh !important;
     }
     
     .diary-custom-character-content {
