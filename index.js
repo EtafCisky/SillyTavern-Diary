@@ -3540,7 +3540,6 @@ function createDiaryCard(diary) {
     return `
         <div class="diary-book-diary-card" data-entry-id="${diary.id}" data-diary-title="${diary.title}">
             <div class="diary-book-diary-header">
-                <div class="diary-book-diary-icon">📖</div>
                 <div class="diary-book-diary-meta">
                     <div class="diary-book-diary-title" title="${diary.title}">${truncatedTitle}</div>
                     <div class="diary-book-diary-time">${diary.time}</div>

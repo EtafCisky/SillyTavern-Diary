@@ -155,97 +155,31 @@
     }
 }
 
-/* 🎭 淡入缩放进入动画 */
+/* 🎭 3D翻转进入动画 */
 @keyframes cosmicEntry {
     from { 
         opacity: 0;
-        transform: scale(0.95) translateY(-20px);
-        filter: blur(3px);
+        transform: perspective(1000px) rotateY(-90deg) rotateX(30deg) translateZ(-100px);
+        filter: blur(5px);
     }
     to { 
         opacity: 1;
-        transform: scale(1) translateY(0);
+        transform: perspective(1000px) rotateY(0deg) rotateX(0deg) translateZ(0px);
         filter: blur(0px);
     }
 }
 
-/* ⭐ 星星闪烁动画 - 多种变体 */
+/* ⭐ 星星闪烁动画 */
 @keyframes starBlink1 {
     0%, 100% { opacity: 0; }
     20% { opacity: 1; }
     40% { opacity: 0; }
 }
 
-@keyframes starBlink2 {
-    0%, 100% { opacity: 0; }
-    30% { opacity: 0.8; }
-    60% { opacity: 0; }
-}
-
-@keyframes starBlink3 {
-    0%, 100% { opacity: 0; }
-    15% { opacity: 1; }
-    30% { opacity: 0; }
-    75% { opacity: 0.6; }
-    90% { opacity: 0; }
-}
-
-@keyframes starBlink4 {
-    0%, 100% { opacity: 0; }
-    40% { opacity: 0.9; }
-    80% { opacity: 0; }
-}
-
-@keyframes starBlink5 {
-    0%, 100% { opacity: 0; }
-    25% { opacity: 0.7; }
-    50% { opacity: 0; }
-}
-
-@keyframes starBlink6 {
-    0%, 100% { opacity: 0; }
-    10% { opacity: 1; }
-    20% { opacity: 0; }
-    50% { opacity: 0.8; }
-    60% { opacity: 0; }
-}
-
 /* 🌈 颜色变化动画 */
 @keyframes colorShift1 {
     0%, 100% { filter: hue-rotate(0deg); }
     50% { filter: hue-rotate(120deg); }
-}
-
-@keyframes colorShift2 {
-    0%, 100% { filter: hue-rotate(0deg); }
-    33% { filter: hue-rotate(80deg); }
-    66% { filter: hue-rotate(200deg); }
-}
-
-@keyframes colorShift3 {
-    0%, 100% { filter: hue-rotate(0deg); }
-    25% { filter: hue-rotate(60deg); }
-    50% { filter: hue-rotate(180deg); }
-    75% { filter: hue-rotate(280deg); }
-}
-
-/* 📍 位置移动动画 */
-@keyframes starMove1 {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(20px, -15px); }
-}
-
-@keyframes starMove2 {
-    0%, 100% { transform: translate(0, 0); }
-    33% { transform: translate(-15px, 10px); }
-    66% { transform: translate(10px, 20px); }
-}
-
-@keyframes starMove3 {
-    0%, 100% { transform: translate(0, 0); }
-    25% { transform: translate(15px, 15px); }
-    50% { transform: translate(-10px, -10px); }
-    75% { transform: translate(20px, -20px); }
 }
 
 /* 🌟 粒子漂移动画 */
@@ -393,7 +327,7 @@
     font-family: 'Consolas', 'Monaco', monospace;
     font-size: 1rem;
     color: var(--night-text-soft);
-    text-align: center;
+  text-align: center;
     letter-spacing: 2px;
     text-transform: uppercase;
     opacity: 0.8;
@@ -453,219 +387,16 @@
 /*              创新对话框系统               */
 /* ========================================= */
 
-/* === 🌌 宇宙背景遮罩 === */
-.diary-custom-character-dialog,
-.diary-book-dialog,
-.diary-preset-dialog {
-  position: fixed;
-    inset: 0;
-    background: radial-gradient(ellipse at center, 
-        var(--night-void) 0%, 
-        var(--night-space) 40%, 
-        var(--night-nebula) 100%);
-    backdrop-filter: blur(15px);
-    z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-    animation: cosmicEntry 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
+/* === 🌌 宇宙背景遮罩（已删除共同样式，每个弹窗独立定义） === */
 
-.diary-custom-character-dialog::before,
-.diary-book-dialog::before,
-.diary-preset-dialog::before {
-  content: '';
-  position: absolute;
-    inset: 0;
-    background: var(--night-flow-stars);
-    opacity: 0.1;
-    animation: auroraFlow 20s linear infinite;
-  pointer-events: none;
-}
-
-/* === 🔷 八边形自定义角色弹窗 === */
-.diary-custom-character-content {
-    background: var(--night-flow-space);
-    border: 3px solid var(--night-border-glow);
-    clip-path: polygon(10% 0%, 90% 0%, 100% 25%, 100% 75%, 90% 100%, 10% 100%, 0% 75%, 0% 25%);
-    width: 90%;
-    max-width: 480px;
-    max-height: 70vh;
-    overflow: hidden;
-    position: relative;
-    box-shadow: var(--night-shadow-deep), var(--night-shadow-aurora);
-}
-
-.diary-custom-character-content .particle-field {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-}
-
-.diary-custom-character-header {
-    padding: 32px 32px 20px;
-    background: linear-gradient(135deg, 
-        var(--night-nebula) 0%, 
-        var(--night-cosmos) 100%);
-    position: relative;
-    z-index: 1;
-    text-align: center;
-}
-
-.diary-custom-character-header::after {
-  content: '';
-  position: absolute;
-    bottom: 0;
-    left: 20%;
-    right: 20%;
-    height: 2px;
-    background: var(--night-flow-aurora);
-}
-
-.diary-custom-character-header h3 {
-    margin: 0;
-    font-family: 'Georgia', serif;
-    font-size: 1.8rem;
-    font-weight: 300;
-    color: var(--night-text-glow);
-    letter-spacing: 2px;
-    text-shadow: 0 0 25px var(--night-aurora-gold);
-}
-
-.diary-character-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    background: var(--night-flow-space);
-    border: 2px solid var(--night-border-glow);
-    border-radius: 50%;
-    color: var(--night-text-soft);
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: var(--night-shadow-glow);
-}
-
-.diary-character-close:hover {
-    transform: scale(1.1);
-    border-color: var(--night-border-glow);
-    color: var(--night-text-bright);
-    box-shadow: var(--night-shadow-glow);
-}
-
-.diary-custom-character-body {
-    padding: 28px 32px;
-    background: var(--night-space);
-    position: relative;
-    z-index: 1;
-}
-
-.diary-custom-character-body p {
-    margin: 0 0 20px;
-    font-family: 'Georgia', serif;
-    font-size: 1.1rem;
-    color: var(--night-text-normal);
-    line-height: 1.7;
-    letter-spacing: 0.5px;
-    text-align: center;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-}
-
-.diary-character-input {
-  width: 100%;
-    padding: 16px 20px;
-    background: var(--night-void);
-    border: 2px solid var(--night-border-soft);
-    border-radius: 25px;
-    color: var(--night-text-bright);
-    font-family: 'Georgia', serif;
-    font-size: 1.1rem;
-    text-align: center;
-    transition: all 0.4s ease;
-    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.4);
-}
-
-.diary-character-input::placeholder {
-    color: var(--night-text-dim);
-    font-style: italic;
-}
-
-.diary-character-input:focus {
-    outline: none;
-    border-color: var(--night-border-glow);
-    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.4), 
-                var(--night-shadow-glow);
-    background: rgba(10, 10, 15, 0.8);
-}
-
-.diary-custom-character-footer {
-    padding: 20px 32px 32px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    background: var(--night-space);
-    position: relative;
-    z-index: 1;
-}
-
-.diary-character-btn {
-    min-width: 120px;
-    padding: 14px 24px;
-    font-family: 'Consolas', monospace;
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative;
-    overflow: hidden;
-}
-
-.diary-character-send {
-    background: transparent;
-    border: 2px solid var(--night-star-gold);
-    color: var(--night-star-gold);
-    border-radius: 8px;
-}
-
-.diary-character-send:hover {
-    background: rgba(70, 130, 180, 0.15);
-    border-color: var(--night-star-gold);
-    color: var(--night-text-bright);
-}
-
-.diary-character-cancel {
-    background: transparent;
-    border: 2px solid var(--night-border-soft);
-    color: var(--night-text-soft);
-    border-radius: 25px;
-}
-
-.diary-character-cancel:hover {
-    border-color: var(--night-star-purple);
-    color: var(--night-text-bright);
-    background: rgba(221, 160, 221, 0.1);
-}
-
-/* === 自定义角色弹窗样式 === */
-
+/* === 🌙 夜间系列 - 创新自定义角色弹窗 === */
 .diary-custom-character-dialog {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+    inset: 0;
     background: linear-gradient(135deg, 
-        rgba(0, 0, 0, 0.8) 0%, 
-        rgba(15, 15, 15, 0.9) 50%, 
-        rgba(0, 0, 0, 0.8) 100%);
-    backdrop-filter: blur(8px);
+        rgba(0, 0, 0, 0.90) 0%, 
+        rgba(0, 0, 0, 0.93) 100%);
+    backdrop-filter: blur(10px);
     z-index: 9999;
   display: flex;
   justify-content: center;
@@ -673,15 +404,18 @@
 }
 
 .diary-custom-character-content {
-    background: var(--night-gradient-card);
-    border: 2px solid var(--night-border-primary);
-    border-radius: 16px;
-    box-shadow: var(--night-shadow-strong), var(--night-shadow-gold);
-    max-width: 500px;
+    background: linear-gradient(155deg, 
+        rgba(20, 20, 32, 0.95) 0%, 
+        rgba(15, 15, 25, 0.98) 50%,
+        rgba(10, 10, 20, 1) 100%);
+    border-radius: 24px 24px 24px 0;
     width: 90%;
+    max-width: 520px;
     max-height: 80vh;
   overflow: hidden;
     position: relative;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8),
+                inset 0 1px 0 rgba(135, 206, 235, 0.06);
 }
 
 .diary-custom-character-content::before {
@@ -691,221 +425,208 @@
   left: 0;
     right: 0;
     height: 2px;
-    background: var(--night-gradient-gold);
-    opacity: 0.8;
+    background: linear-gradient(90deg, 
+        rgba(64, 224, 208, 0.3) 0%, 
+        rgba(135, 206, 235, 0.4) 30%, 
+        rgba(70, 130, 180, 0.3) 60%, 
+        transparent 100%);
 }
 
 .diary-custom-character-content::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-    background: radial-gradient(circle, 
-        rgba(212, 175, 55, 0.05) 0%, 
-        transparent 70%);
-  pointer-events: none;
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 60px 60px;
+    border-color: transparent transparent rgba(64, 224, 208, 0.08) transparent;
 }
 
 .diary-custom-character-header {
-    padding: 24px 24px 16px;
-    border-bottom: 1px solid var(--night-border-primary);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(135deg, 
-        rgba(42, 42, 42, 0.8) 0%, 
-        rgba(26, 26, 26, 0.8) 100%);
+    padding: 40px 44px 32px;
+    background: transparent;
     position: relative;
 }
 
-.diary-custom-character-header::before {
+.diary-custom-character-header::after {
   content: '';
   position: absolute;
     bottom: 0;
-    left: 20%;
-    right: 20%;
-  height: 1px;
-    background: var(--night-gradient-gold);
-    opacity: 0.6;
+    left: 44px;
+    right: 44px;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        rgba(64, 224, 208, 0.3) 0%, 
+        rgba(135, 206, 235, 0.2) 50%, 
+        transparent 100%);
 }
 
 .diary-custom-character-header h3 {
     margin: 0;
-    color: var(--night-text-gold);
-    font-size: 20px;
-    font-weight: 600;
-    text-shadow: 0 0 15px var(--night-gold-glow);
-    letter-spacing: 0.5px;
+    font-family: 'Georgia', serif;
+    font-size: 1.7rem;
+    font-weight: 300;
+    background: linear-gradient(120deg, 
+        var(--night-star-cyan) 0%, 
+        var(--night-star-blue) 50%, 
+        var(--night-star-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 2px;
+    text-shadow: none;
+    position: relative;
+    display: inline-block;
 }
 
 .diary-character-close {
-    background: transparent;
-    border: 2px solid var(--night-border-primary);
+    position: absolute;
+    top: 36px;
+    right: 36px;
+    width: 44px;
+    height: 44px;
+    background: rgba(20, 20, 32, 0.8);
+    border: 1px solid rgba(64, 224, 208, 0.2);
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    color: var(--night-star-cyan);
     font-size: 20px;
-    color: var(--night-text-secondary);
     cursor: pointer;
-    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.diary-character-close::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--night-gradient-gold);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    border-radius: 50%;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
 }
 
 .diary-character-close:hover {
-    border-color: var(--night-border-gold);
-    color: var(--night-text-primary);
-    transform: rotate(90deg) scale(1.1);
-    box-shadow: var(--night-shadow-gold);
-}
-
-.diary-character-close:hover::before {
-    opacity: 0.1;
+    background: rgba(64, 224, 208, 0.12);
+    border-color: var(--night-star-cyan);
+    color: var(--night-text-bright);
+    box-shadow: 0 0 20px rgba(64, 224, 208, 0.2),
+                inset 0 0 15px rgba(64, 224, 208, 0.1);
 }
 
 .diary-custom-character-body {
-    padding: 24px;
-    background: var(--night-bg-secondary);
+    padding: 36px 44px;
+    background: transparent;
 }
 
 .diary-custom-character-body p {
-    margin: 0 0 16px;
-    color: var(--night-text-secondary);
-    font-size: 15px;
-    line-height: 1.6;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.diary-custom-character-body > div:nth-child(2) {
-    margin-top: 20px;
+    margin: 0 0 28px;
+    font-family: 'Georgia', serif;
+    font-size: 1.05rem;
+    color: var(--night-text-normal);
+    line-height: 1.8;
+    letter-spacing: 0.5px;
+    text-align: left;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 }
 
 .diary-character-input {
     width: 100%;
-    padding: 12px 16px;
-    background: var(--night-bg-primary);
-    border: 2px solid var(--night-border-primary);
-    border-radius: 8px;
-    color: var(--night-text-primary);
-    font-size: 15px;
+    padding: 18px 24px;
+    background: rgba(10, 10, 20, 0.6);
+    border: 1px solid rgba(64, 224, 208, 0.15);
+    border-radius: 16px;
+    color: var(--night-text-bright);
+    font-family: 'Georgia', serif;
+    font-size: 1.05rem;
     transition: all 0.3s ease;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .diary-character-input::placeholder {
-    color: var(--night-text-muted);
+    color: var(--night-text-dim);
+    font-style: italic;
+    opacity: 0.6;
 }
 
 .diary-character-input:focus {
     outline: none;
-    border-color: var(--night-border-gold);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 
-                var(--night-shadow-gold);
-    background: rgba(26, 26, 26, 0.8);
-}
-
-.diary-character-input:hover {
-    border-color: var(--night-border-secondary);
-    background: rgba(26, 26, 26, 0.6);
+    border-color: var(--night-star-cyan);
+    background: rgba(10, 10, 20, 0.8);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5),
+                0 0 0 3px rgba(64, 224, 208, 0.1),
+                0 0 30px rgba(64, 224, 208, 0.08);
 }
 
 .diary-custom-character-footer {
-    padding: 16px 24px 24px;
+    padding: 32px 44px 44px;
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
-    background: var(--night-bg-secondary);
+    gap: 16px;
+    background: linear-gradient(180deg, 
+        transparent 0%, 
+        rgba(10, 10, 20, 0.4) 100%);
 }
 
 .diary-character-btn {
-    padding: 10px 20px;
-    border: 2px solid var(--night-border-primary);
-    border-radius: 8px;
-    font-size: 14px;
+    padding: 14px 32px;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
     font-weight: 500;
+    letter-spacing: 1px;
     cursor: pointer;
     transition: all 0.3s ease;
+    border-radius: 14px;
     position: relative;
-    overflow: hidden;
 }
 
 .diary-character-send {
-    background: var(--night-gradient-gold);
-    border-color: var(--night-border-gold);
-    color: var(--night-bg-primary);
-    text-shadow: none;
+    background: linear-gradient(135deg, 
+        rgba(64, 224, 208, 0.2) 0%, 
+        rgba(70, 130, 180, 0.15) 100%);
+    border: 1px solid rgba(64, 224, 208, 0.4);
+    color: var(--night-star-cyan);
+    box-shadow: 0 4px 16px rgba(64, 224, 208, 0.15);
 }
 
 .diary-character-send:hover {
+    background: linear-gradient(135deg, 
+        rgba(64, 224, 208, 0.3) 0%, 
+        rgba(70, 130, 180, 0.25) 100%);
+    border-color: var(--night-star-cyan);
+    color: var(--night-text-bright);
+    box-shadow: 0 6px 24px rgba(64, 224, 208, 0.25);
     transform: translateY(-2px);
-    box-shadow: var(--night-shadow-medium), var(--night-shadow-gold);
-    filter: brightness(1.1);
-}
-
-.diary-character-send:active {
-    transform: translateY(0);
-    box-shadow: var(--night-shadow-soft);
 }
 
 .diary-character-cancel {
     background: transparent;
-    border-color: var(--night-border-secondary);
-    color: var(--night-text-secondary);
+    border: 1px solid rgba(135, 206, 235, 0.2);
+    color: var(--night-text-soft);
 }
 
 .diary-character-cancel:hover {
-    background: rgba(139, 74, 107, 0.2);
-    border-color: var(--night-red-soft);
-    color: var(--night-text-primary);
-    transform: translateY(-1px);
-}
-
-.diary-character-cancel:active {
-    transform: translateY(0);
-    background: rgba(139, 74, 107, 0.3);
+    background: rgba(135, 206, 235, 0.08);
+    border-color: var(--night-star-blue);
+    color: var(--night-text-normal);
 }
 
 /* === 日记本主弹窗样式 === */
 
 .diary-book-dialog {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  position: fixed;
+    inset: 0;
     background: linear-gradient(135deg, 
-        rgba(0, 0, 0, 0.85) 0%, 
-        rgba(15, 15, 15, 0.9) 50%, 
-        rgba(0, 0, 0, 0.85) 100%);
-    backdrop-filter: blur(12px);
+        rgba(0, 0, 0, 0.92) 0%, 
+        rgba(0, 0, 0, 0.95) 50%, 
+        rgba(0, 0, 0, 0.92) 100%);
+    backdrop-filter: blur(10px);
     z-index: 9998;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: nightFadeIn 0.5s ease-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* 第一层星星 - 20颗 */
 .diary-book-dialog::before {
-    content: '';
-    position: absolute;
+  content: '';
+  position: absolute;
     inset: 0;
-    background: 
+  background: 
         radial-gradient(circle at 5% 12%, var(--night-star-blue) 1.5px, transparent 1.5px),
         radial-gradient(circle at 12% 25%, var(--night-star-purple) 1.5px, transparent 1.5px),
         radial-gradient(circle at 18% 8%, var(--night-star-cyan) 1.5px, transparent 1.5px),
@@ -936,10 +657,10 @@
 
 /* 第二层星星 - 20颗 */
 .diary-book-dialog::after {
-    content: '';
-    position: absolute;
+  content: '';
+  position: absolute;
     inset: 0;
-    background: 
+  background: 
         radial-gradient(circle at 8% 22%, var(--night-star-cyan) 1.5px, transparent 1.5px),
         radial-gradient(circle at 15% 48%, var(--night-star-gold) 1.5px, transparent 1.5px),
         radial-gradient(circle at 22% 15%, var(--night-star-purple) 1.5px, transparent 1.5px),
@@ -962,7 +683,7 @@
         radial-gradient(circle at 18% 82%, var(--night-star-blue) 1.5px, transparent 1.5px);
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    pointer-events: none;
+  pointer-events: none;
     animation: 
         starBlink1 3s ease-in-out infinite 0.75s,
         colorShift1 10s linear infinite;
@@ -1008,7 +729,7 @@
     content: '';
     position: fixed;
     inset: 0;
-    background: 
+  background: 
         radial-gradient(circle at 6% 35%, var(--night-star-purple) 1.5px, transparent 1.5px),
         radial-gradient(circle at 14% 62%, var(--night-star-cyan) 1.5px, transparent 1.5px),
         radial-gradient(circle at 20% 5%, var(--night-star-gold) 1.5px, transparent 1.5px),
@@ -1039,22 +760,21 @@
 }
 
 .diary-book-content {
-    background: var(--night-gradient-card);
-    border: 2px solid var(--night-border-primary);
+    background: var(--night-flow-space);
+    border: none;
     border-radius: 20px;
-    box-shadow: var(--night-shadow-strong), 
-                0 0 40px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
     max-width: 900px;
     width: 90%;
     max-height: 90vh;
-    overflow: hidden;
+  overflow: hidden;
     position: relative;
-    animation: nightSlideIn 0.6s ease-out;
+    display: flex;
+    flex-direction: column;
 }
 
 .diary-book-content:hover {
-    box-shadow: var(--night-shadow-strong), 
-                0 0 60px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8);
 }
 
 .diary-book-header {
@@ -1081,8 +801,8 @@
 }
 
 .diary-book-header::before {
-    content: '';
-    position: absolute;
+  content: '';
+  position: absolute;
     inset: 0;
     background: var(--night-flow-aurora);
     opacity: 0.05;
@@ -1096,9 +816,9 @@
     bottom: -2px;
     left: 10%;
     right: 10%;
-    height: 1px;
+  height: 1px;
     background: linear-gradient(90deg, 
-        transparent 0%, 
+      transparent 0%, 
         var(--night-star-cyan) 25%, 
         var(--night-text-glow) 50%, 
         var(--night-star-cyan) 75%, 
@@ -1122,95 +842,94 @@
 }
 
 .diary-book-close {
-    background: transparent;
-    border: 2px solid var(--night-border-primary);
+    background: var(--night-flow-space);
+    border: 2px solid var(--night-border-glow);
     border-radius: 50%;
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     font-size: 24px;
-    color: var(--night-text-secondary);
+    color: var(--night-text-soft);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
-}
-
-.diary-book-close::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--night-gradient-gold);
-    opacity: 0; 
-    transition: opacity 0.3s ease;
-    border-radius: 50%;
+    box-shadow: var(--night-shadow-glow);
 }
 
 .diary-book-close:hover {
-    border-color: var(--night-border-gold);
-    color: var(--night-text-primary);
-    transform: rotate(180deg) scale(1.15);
-    box-shadow: var(--night-shadow-gold);
-}
-
-.diary-book-close:hover::before {
-    opacity: 0.15;
+    transform: scale(1.2) rotate(180deg);
+    border-color: var(--night-border-glow);
+    color: var(--night-text-bright);
+    box-shadow: var(--night-shadow-glow);
 }
 
 .diary-book-body {
     flex: 1;
-    overflow-y: auto;
+    overflow: hidden;
     position: relative;
-    background: var(--night-bg-secondary);
+    background: var(--night-space);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
 }
 
 .diary-book-body::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
 }
 
 .diary-book-body::-webkit-scrollbar-track {
-    background: var(--night-bg-primary);
+    background: var(--night-void);
 }
 
 .diary-book-body::-webkit-scrollbar-thumb {
-    background: var(--night-gradient-gold);
-    border-radius: 4px;
-    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(135deg, 
+        var(--night-star-blue) 0%, 
+        var(--night-star-cyan) 100%);
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .diary-book-body::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(135deg, 
-        var(--night-gold-light) 0%, 
-        var(--night-gold-primary) 100%);
+        var(--night-star-cyan) 0%, 
+        var(--night-star-gold) 100%);
+    box-shadow: 0 0 10px var(--night-star-cyan);
 }
 
 /* === 预设设置弹窗样式 === */
 
 .diary-preset-dialog {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, 
-        rgba(0, 0, 0, 0.8) 0%, 
-        rgba(15, 15, 15, 0.9) 50%, 
-        rgba(0, 0, 0, 0.8) 100%);
-    backdrop-filter: blur(10px);
+    inset: 0;
+    background: radial-gradient(ellipse at center, 
+        var(--night-void) 0%, 
+        var(--night-space) 40%, 
+        var(--night-nebula) 100%);
+    backdrop-filter: blur(15px);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    animation: nightFadeIn 0.4s ease-out;
+}
+
+.diary-preset-dialog::before {
+  content: '';
+  position: absolute;
+    inset: 0;
+    background: var(--night-flow-stars);
+    opacity: 0.1;
+    animation: auroraFlow 20s linear infinite;
+  pointer-events: none;
 }
 
 .diary-preset-content {
-    background: var(--night-gradient-card);
-    border: 2px solid var(--night-border-primary);
+    background: var(--night-flow-space);
+    border: 3px solid var(--night-border-glow);
     border-radius: 18px;
-    box-shadow: var(--night-shadow-strong), var(--night-shadow-gold);
+    box-shadow: var(--night-shadow-deep), var(--night-shadow-aurora);
     width: 90%;
     max-width: 600px;
     max-height: 85vh;
@@ -1218,39 +937,13 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    animation: nightSlideIn 0.5s ease-out;
-}
-
-.diary-preset-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--night-gradient-gold);
-    opacity: 0.8; 
-}
-
-.diary-preset-content::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, 
-        rgba(106, 76, 147, 0.03) 0%, 
-        transparent 70%);
-    pointer-events: none;
-    animation: nightStarTwinkle 5s ease-in-out infinite;
 }
 
 .diary-preset-header {
     background: linear-gradient(135deg, 
-        var(--night-purple-soft) 0%, 
-        var(--night-blue-soft) 100%);
-    color: var(--night-text-primary);
+        var(--night-nebula) 0%, 
+        var(--night-cosmos) 100%);
+    color: var(--night-text-bright);
     padding: 24px 28px;
     display: flex;
     justify-content: space-between;
@@ -1258,87 +951,81 @@
     position: relative;
 }
 
-.diary-preset-header::before {
+.diary-preset-header::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 20%;
     right: 20%;
-    height: 1px;
-    background: var(--night-gradient-gold);
-    opacity: 0.6; 
+    height: 2px;
+    background: var(--night-flow-aurora);
+    animation: auroraFlow 4s linear infinite;
 }
 
 .diary-preset-title {
     margin: 0;
-    font-size: 22px;
-    font-weight: 600;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    letter-spacing: 0.5px;
+    font-family: 'Georgia', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--night-text-glow);
+    letter-spacing: 2px;
+    text-shadow: 0 0 25px var(--night-aurora-gold);
+    animation: spectrumCycle 8s ease-in-out infinite;
 }
 
 .diary-preset-close {
-    background: transparent;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: var(--night-flow-space);
+    border: 2px solid var(--night-border-glow);
     border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    color: var(--night-text-primary);
-    font-size: 20px;
+    width: 50px;
+    height: 50px;
+    color: var(--night-text-soft);
+    font-size: 24px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
-}
-
-.diary-preset-close::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.1);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    border-radius: 50%;
+    box-shadow: var(--night-shadow-glow);
 }
 
 .diary-preset-close:hover {
-    border-color: rgba(255, 255, 255, 0.6);
-    transform: rotate(90deg) scale(1.1);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-}
-
-.diary-preset-close:hover::before {
-    opacity: 1; 
+    transform: scale(1.2) rotate(180deg);
+    border-color: var(--night-border-glow);
+    color: var(--night-text-bright);
+    box-shadow: var(--night-shadow-glow);
 }
 
 .diary-preset-body {
     padding: 28px;
     overflow-y: auto;
     flex: 1;
-    background: var(--night-bg-secondary);
+    background: var(--night-space);
 }
 
 .diary-preset-body::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
 }
 
 .diary-preset-body::-webkit-scrollbar-track {
-    background: var(--night-bg-primary);
+    background: var(--night-void);
 }
 
 .diary-preset-body::-webkit-scrollbar-thumb {
-    background: var(--night-gradient-gold);
-    border-radius: 4px;
-    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(135deg, 
+        var(--night-star-blue) 0%, 
+        var(--night-star-cyan) 100%);
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .diary-preset-body::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(135deg, 
-        var(--night-gold-light) 0%, 
-        var(--night-gold-primary) 100%);
+        var(--night-star-cyan) 0%, 
+        var(--night-star-gold) 100%);
+    box-shadow: 0 0 10px var(--night-star-cyan);
 }
 
 /* ========================================= */
@@ -1351,11 +1038,12 @@
     display: none;
     width: 100%;
     height: 100%;
-    background: var(--night-bg-secondary);
+    background: var(--night-space);
 }
 
 .diary-book-view[style*="display: block"] {
-    display: block !important;
+    display: flex !important;
+    flex-direction: column;
 }
 
 /* === 🌌 宇宙封面页面样式 === */
@@ -1382,10 +1070,10 @@
 }
 
 .diary-book-cover::before {
-    content: '';
-    position: absolute;
+  content: '';
+  position: absolute;
     inset: 0;
-    background: 
+  background: 
         radial-gradient(circle at 15% 25%, rgba(70, 130, 180, 0.1) 0%, transparent 40%),
         radial-gradient(circle at 85% 75%, rgba(135, 206, 235, 0.08) 0%, transparent 35%),
         radial-gradient(circle at 50% 10%, rgba(64, 224, 208, 0.06) 0%, transparent 30%),
@@ -1395,15 +1083,15 @@
 }
 
 .diary-book-cover::after {
-    content: '';
-    position: absolute;
+  content: '';
+  position: absolute;
     inset: 0;
-    background: 
+  background: 
         linear-gradient(45deg, transparent 48%, rgba(70, 130, 180, 0.03) 49%, rgba(70, 130, 180, 0.03) 51%, transparent 52%),
         linear-gradient(-45deg, transparent 48%, rgba(135, 206, 235, 0.02) 49%, rgba(135, 206, 235, 0.02) 51%, transparent 52%);
     background-size: 100px 100px, 150px 150px;
     animation: auroraFlow 40s linear infinite;
-    pointer-events: none;
+  pointer-events: none;
     opacity: 0.6;
 }
 
@@ -1476,8 +1164,8 @@
 }
 
 .diary-book-cover-button::before {
-    content: '';
-    position: absolute;
+  content: '';
+  position: absolute;
     inset: 0;
     background: var(--night-flow-aurora);
     opacity: 0; 
@@ -1510,31 +1198,32 @@
 .diary-book-nav-header {
     display: flex;
     align-items: center;
-    padding: 18px 24px;
+    padding: 20px 28px;
     background: linear-gradient(135deg, 
-        var(--night-bg-tertiary) 0%, 
-        var(--night-bg-secondary) 100%);
-    border-bottom: 2px solid var(--night-border-primary);
-    box-shadow: var(--night-shadow-soft);
+        var(--night-nebula) 0%, 
+        var(--night-space) 100%);
+    border-bottom: 2px solid var(--night-border-soft);
+    box-shadow: var(--night-shadow-float);
     position: relative;
 }
 
-.diary-book-nav-header::before {
+.diary-book-nav-header::after {
     content: '';
     position: absolute;
-    bottom: -1px;
-    left: 10%;
-    right: 10%;
-    height: 1px;
-    background: var(--night-gradient-gold);
-    opacity: 0.5; 
-  }
+    bottom: 0;
+    left: 20%;
+    right: 20%;
+    height: 2px;
+    background: var(--night-flow-aurora);
+    animation: auroraFlow 6s linear infinite;
+    opacity: 0.6;
+}
 
 .diary-book-nav-btn {
-    background: var(--night-gradient-card);
-    border: 2px solid var(--night-border-primary);
-    color: var(--night-text-primary);
-    padding: 10px 18px;
+    background: var(--night-flow-space);
+    border: 2px solid var(--night-border-soft);
+    color: var(--night-text-bright);
+    padding: 10px 20px;
     border-radius: 8px;
     font-size: 14px;
     font-weight: 500;
@@ -1542,49 +1231,44 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-}
-
-.diary-book-nav-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(212, 175, 55, 0.1), 
-        transparent);
-    transition: left 0.4s ease;
+    font-family: 'Consolas', monospace;
+    letter-spacing: 1px;
 }
 
 .diary-book-nav-btn:hover {
     background: linear-gradient(135deg, 
-        rgba(42, 42, 42, 0.9) 0%, 
-        rgba(74, 111, 165, 0.2) 100%);
-    border-color: var(--night-border-secondary);
-    color: var(--night-text-gold);
-    transform: translateY(-1px);
-    box-shadow: var(--night-shadow-soft);
-}
-
-.diary-book-nav-btn:hover::before {
-    left: 100%;
+        var(--night-cosmos) 0%, 
+        var(--night-nebula) 100%);
+    border-color: var(--night-border-glow);
+    color: var(--night-text-glow);
+    transform: translateY(-2px);
+    box-shadow: var(--night-shadow-float);
 }
 
 .diary-book-view-title {
     margin: 0;
-    color: var(--night-text-gold);
-    font-size: 20px;
-    font-weight: 700;
+    color: var(--night-text-glow);
+    font-family: 'Georgia', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
     flex: 1;
     text-align: center;
-    text-shadow: 0 0 15px var(--night-gold-glow);
-    letter-spacing: 0.5px;
+    text-shadow: 0 0 20px var(--night-aurora-gold);
+    letter-spacing: 2px;
 }
 
 .diary-book-nav-spacer {
     width: 80px;
+}
+
+/* === 列表视图容器 === */
+
+.diary-book-character-list,
+.diary-book-diary-list {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
 }
 
 /* === 内容区域样式 === */
@@ -1594,7 +1278,326 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    background: var(--night-bg-secondary);
+    background: var(--night-space);
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* === 卡片网格容器 - 可滚动区域 === */
+
+.diary-book-character-grid {
+    display: block;
+    padding: 24px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+    min-height: 0;
+}
+
+.diary-book-diary-grid {
+    display: block;
+    padding: 24px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+    min-height: 0;
+}
+
+/* === 空状态 === */
+
+.diary-book-character-content .diary-book-empty-state,
+.diary-book-diary-content .diary-book-empty-state {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* === 自定义滚动条样式 === */
+
+.diary-book-character-grid::-webkit-scrollbar,
+.diary-book-diary-grid::-webkit-scrollbar {
+    width: 8px;
+}
+
+.diary-book-character-grid::-webkit-scrollbar-track,
+.diary-book-diary-grid::-webkit-scrollbar-track {
+    background: rgba(10, 10, 20, 0.4);
+    border-radius: 4px;
+}
+
+.diary-book-character-grid::-webkit-scrollbar-thumb,
+.diary-book-diary-grid::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom,
+        rgba(64, 224, 208, 0.3) 0%,
+        rgba(70, 130, 180, 0.4) 50%,
+        rgba(135, 206, 235, 0.3) 100%);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.diary-book-character-grid::-webkit-scrollbar-thumb:hover,
+.diary-book-diary-grid::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom,
+        rgba(64, 224, 208, 0.5) 0%,
+        rgba(70, 130, 180, 0.6) 50%,
+        rgba(135, 206, 235, 0.5) 100%);
+    box-shadow: 0 0 8px rgba(64, 224, 208, 0.3);
+}
+
+/* === 🎴 角色卡片样式 - 重新设计 === */
+
+.diary-book-character-card {
+    background: linear-gradient(160deg, 
+        rgba(20, 20, 32, 0.7) 0%, 
+        rgba(10, 10, 20, 0.85) 100%);
+    border-radius: 0 20px 20px 0;
+    padding: 28px 32px 28px 40px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid transparent;
+    border-left: none;
+}
+
+.diary-book-character-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: linear-gradient(to bottom, 
+        rgba(64, 224, 208, 0.8) 0%, 
+        rgba(70, 130, 180, 0.6) 50%, 
+        rgba(135, 206, 235, 0.4) 100%);
+    transition: all 0.4s ease;
+}
+
+.diary-book-character-card::after {
+    content: '';
+    position: absolute;
+    right: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, 
+        rgba(64, 224, 208, 0.06) 0%, 
+        transparent 60%);
+    opacity: 0; 
+    transition: all 0.5s ease;
+}
+
+.diary-book-character-card:hover {
+    background: linear-gradient(160deg, 
+        rgba(20, 20, 32, 0.85) 0%, 
+        rgba(10, 10, 20, 0.95) 100%);
+    border-color: rgba(64, 224, 208, 0.15);
+    box-shadow: -8px 0 24px rgba(64, 224, 208, 0.1),
+                0 8px 32px rgba(0, 0, 0, 0.5);
+    padding-left: 48px;
+}
+
+.diary-book-character-card:hover::before {
+    width: 8px;
+    box-shadow: 4px 0 16px rgba(64, 224, 208, 0.3);
+}
+
+.diary-book-character-card:hover::after {
+    opacity: 1; 
+    right: -50px;
+}
+
+.diary-book-character-avatar {
+    display: none;
+}
+
+.diary-book-character-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.diary-book-character-name {
+    font-family: 'Georgia', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--night-text-bright);
+    margin: 0;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    position: relative;
+    display: inline-block;
+    max-width: fit-content;
+}
+
+.diary-book-character-name::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, 
+        var(--night-star-cyan) 0%, 
+        transparent 100%);
+    transition: width 0.4s ease;
+}
+
+.diary-book-character-card:hover .diary-book-character-name::after {
+    width: 100%;
+}
+
+.diary-book-character-count {
+    font-family: 'Consolas', monospace;
+    font-size: 0.85rem;
+    color: var(--night-text-soft);
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.diary-book-character-arrow {
+    color: rgba(64, 224, 208, 0.4);
+    font-size: 24px;
+    transition: all 0.4s ease;
+    flex-shrink: 0;
+    margin-left: 20px;
+}
+
+.diary-book-character-card:hover .diary-book-character-arrow {
+    color: var(--night-star-cyan);
+    transform: translateX(8px) scale(1.2);
+}
+
+/* === 📔 日记条目卡片样式 - 全新设计 === */
+
+.diary-book-diary-card {
+    background: linear-gradient(150deg, 
+        rgba(20, 20, 32, 0.6) 0%, 
+        rgba(10, 10, 20, 0.8) 100%);
+    border-radius: 16px 4px 16px 4px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border: 1px solid rgba(135, 206, 235, 0.1);
+    border-left: 4px solid rgba(70, 130, 180, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.diary-book-diary-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle at top right, 
+        rgba(135, 206, 235, 0.08) 0%, 
+        transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.diary-book-diary-card::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 6px;
+    height: 6px;
+    background: var(--night-star-blue);
+    border-radius: 50%;
+    opacity: 0.3;
+    transition: all 0.4s ease;
+}
+
+.diary-book-diary-card:hover {
+    transform: translateY(-2px) translateX(4px);
+    background: linear-gradient(150deg, 
+        rgba(20, 20, 32, 0.8) 0%, 
+        rgba(10, 10, 20, 0.95) 100%);
+    border-left-color: var(--night-star-cyan);
+    border-left-width: 5px;
+    box-shadow: -6px 0 20px rgba(70, 130, 180, 0.15),
+                0 8px 28px rgba(0, 0, 0, 0.5);
+}
+
+.diary-book-diary-card:hover::before {
+    opacity: 1; 
+}
+
+.diary-book-diary-card:hover::after {
+    opacity: 0.8;
+    box-shadow: 0 0 12px var(--night-star-cyan);
+}
+
+.diary-book-diary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(135, 206, 235, 0.06);
+}
+
+.diary-book-diary-date {
+    font-family: 'Consolas', monospace;
+    font-size: 0.75rem;
+    color: var(--night-star-cyan);
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    background: rgba(70, 130, 180, 0.1);
+    border-radius: 6px;
+    border: 1px solid rgba(70, 130, 180, 0.15);
+}
+
+.diary-book-diary-character {
+    font-family: 'Georgia', serif;
+    font-size: 0.8rem;
+    color: var(--night-text-dim);
+    font-style: italic;
+}
+
+.diary-book-diary-preview {
+    font-family: 'Georgia', serif;
+    font-size: 0.95rem;
+    color: var(--night-text-normal);
+    line-height: 1.8;
+    letter-spacing: 0.3px;
+    margin: 0 0 12px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.diary-book-diary-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.diary-book-diary-arrow {
+    color: rgba(135, 206, 235, 0.4);
+    font-size: 18px;
+    transition: all 0.4s ease;
+}
+
+.diary-book-diary-card:hover .diary-book-diary-arrow {
+    color: var(--night-star-cyan);
+    transform: translateX(4px);
 }
 
 /* === 空状态页面样式 === */
@@ -1606,10 +1609,10 @@
     justify-content: center;
     height: 350px;
     text-align: center;
-    color: var(--night-text-muted);
+    color: var(--night-text-dim);
     position: relative;
     background: radial-gradient(ellipse at center, 
-        rgba(42, 42, 42, 0.3) 0%, 
+        var(--night-nebula) 0%, 
         transparent 70%);
 }
 
@@ -1621,33 +1624,33 @@
     right: 20%;
     bottom: 20%;
     background: radial-gradient(circle, 
-        rgba(212, 175, 55, 0.02) 0%, 
+        var(--night-aurora-blue) 0%, 
         transparent 60%);
-    animation: nightPulse 4s ease-in-out infinite;
+    animation: spaceFloat 6s ease-in-out infinite;
     border-radius: 50%;
 }
 
 .diary-book-empty-icon {
     font-size: 72px;
     margin-bottom: 20px;
-    opacity: 0.4;
-    color: var(--night-text-secondary);
-    text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-    animation: nightStarTwinkle 3s ease-in-out infinite;
+    opacity: 0.4; 
+    color: var(--night-text-soft);
+    text-shadow: 0 0 20px var(--night-aurora-gold);
+    animation: starTwinkle 5s ease-in-out infinite;
 }
 
 .diary-book-empty-text {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 12px;
-    color: var(--night-text-secondary);
+    color: var(--night-text-normal);
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .diary-book-empty-hint {
     font-size: 15px;
     opacity: 0.7;
-    color: var(--night-text-muted);
+    color: var(--night-text-dim);
     line-height: 1.5;
     max-width: 300px;
 }
@@ -1659,80 +1662,62 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 24px;
+    margin-top: auto;
     background: linear-gradient(135deg, 
-        var(--night-bg-tertiary) 0%, 
-        var(--night-bg-secondary) 100%);
-    border-top: 1px solid var(--night-border-primary);
+        var(--night-nebula) 0%, 
+        var(--night-space) 100%);
+    border-top: 2px solid var(--night-border-soft);
     gap: 20px;
+    flex-shrink: 0;
 }
 
 .diary-book-page-btn {
-    background: var(--night-gradient-card);
-    border: 2px solid var(--night-border-primary);
-    color: var(--night-text-primary);
-    padding: 8px 16px;
-    border-radius: 6px;
+    background: var(--night-flow-space);
+    border: 2px solid var(--night-border-soft);
+    color: var(--night-text-bright);
+    padding: 10px 20px;
+    border-radius: 8px;
     font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    min-width: 80px;
+    min-width: 90px;
     position: relative;
     overflow: hidden;
-}
-
-.diary-book-page-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(212, 175, 55, 0.1), 
-        transparent);
-    transition: left 0.4s ease;
+    font-family: 'Consolas', monospace;
+    letter-spacing: 1px;
 }
 
 .diary-book-page-btn:hover:not(:disabled) {
     background: linear-gradient(135deg, 
-        rgba(42, 42, 42, 0.9) 0%, 
-        rgba(90, 122, 165, 0.2) 100%);
-    border-color: var(--night-border-secondary);
-    color: var(--night-text-gold);
-    transform: translateY(-1px);
-    box-shadow: var(--night-shadow-soft);
-}
-
-.diary-book-page-btn:hover:not(:disabled)::before {
-    left: 100%;
+        var(--night-nebula) 0%, 
+        var(--night-cosmos) 100%);
+    border-color: var(--night-border-glow);
+    color: var(--night-text-glow);
+    transform: translateY(-2px);
+    box-shadow: var(--night-shadow-float);
 }
 
 .diary-book-page-btn:disabled {
-    opacity: 0.4;
+    opacity: 0.3;
     cursor: not-allowed;
-    background: var(--night-bg-primary);
-    border-color: var(--night-border-primary);
-    color: var(--night-text-muted);
+    background: var(--night-void);
+    border-color: var(--night-border-soft);
+    color: var(--night-text-dim);
 }
 
 .diary-book-page-info {
-    color: var(--night-text-secondary);
+    color: var(--night-text-normal);
     font-size: 14px;
     font-weight: 500;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    letter-spacing: 0.3px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.5px;
+    font-family: 'Consolas', monospace;
 }
 
 /* === 移动端适配 === */
 
 @media (max-width: 768px) {
-    /* === 日记本弹窗移动端适配 === */
-    .diary-book-dialog {
-        height: 100vh !important;
-        height: 100dvh !important;
-    }
-    
     .diary-book-cover-content {
         padding: 30px 20px;
     }
@@ -1785,60 +1770,6 @@
     
     .diary-book-empty-hint {
         font-size: 14px;
-    }
-    
-    /* === 自定义角色弹窗移动端适配 === */
-    .diary-custom-character-dialog {
-        height: 100vh !important;
-        height: 100dvh !important;
-    }
-    
-    .diary-custom-character-content {
-        width: 95%;
-        max-width: 100%;
-        max-height: 85vh;
-        border-radius: 12px;
-    }
-    
-    .diary-custom-character-header {
-        padding: 20px 20px 16px;
-    }
-    
-    .diary-custom-character-header h3 {
-        font-size: 18px;
-    }
-    
-    .diary-character-close {
-        width: 36px;
-        height: 36px;
-        font-size: 18px;
-        top: 16px;
-        right: 16px;
-    }
-    
-    .diary-custom-character-body {
-        padding: 20px;
-    }
-    
-    .diary-custom-character-body p {
-        font-size: 14px;
-        margin-bottom: 16px;
-    }
-    
-    .diary-character-input {
-        padding: 12px 16px;
-        font-size: 15px;
-    }
-    
-    .diary-custom-character-footer {
-        padding: 16px 20px 20px;
-        gap: 10px;
-    }
-    
-    .diary-character-btn {
-        padding: 10px 18px;
-        font-size: 14px;
-        min-width: auto;
     }
 }
 
