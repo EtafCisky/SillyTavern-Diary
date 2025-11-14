@@ -1968,13 +1968,23 @@
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
+        z-index: 9999 !important;
+    }
+    
+    .diary-book-content {
+        position: relative !important;
+        max-height: 90vh !important;
+        max-width: 95vw !important;
+        width: 95vw !important;
+        margin: 0 !important;
+        transform: none !important;
+        top: auto !important;
+        left: auto !important;
     }
     
     .diary-book-body {
-        max-height: 90vh !important;
-        max-width: 95vw !important;
-        margin: auto !important;
-        position: relative !important;
+        max-height: calc(90vh - 120px) !important;
+        overflow-y: auto !important;
     }
     
     .diary-book-empty-hint {
@@ -2486,13 +2496,23 @@
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
+        z-index: 9999 !important;
+    }
+    
+    .diary-book-content {
+        position: relative !important;
+        max-height: 90vh !important;
+        max-width: 95vw !important;
+        width: 95vw !important;
+        margin: 0 !important;
+        transform: none !important;
+        top: auto !important;
+        left: auto !important;
     }
     
     .diary-book-body {
-        max-height: 90vh !important;
-        max-width: 95vw !important;
-        margin: auto !important;
-        position: relative !important;
+        max-height: calc(90vh - 120px) !important;
+        overflow-y: auto !important;
     }
 }
 
