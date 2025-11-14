@@ -2786,16 +2786,6 @@ box-shadow:
   width: calc(100% - 25px) !important;
 }
 
-/* 移动端返回按钮固定定位 */
-.diary-book-detail-page .diary-book-back-btn-in-content {
-  position: fixed !important;
-  top: 20px !important;
-  left: 20px !important;
-  padding: 10px 16px !important;
-  font-size: 12px !important;
-  z-index: 2000 !important;
-}
-
 /* 经典主题滚动条样式 */
 .diary-book-detail-content::-webkit-scrollbar {
 width: 8px;
@@ -2822,45 +2812,6 @@ background: linear-gradient(to bottom,
   rgba(196, 168, 124, 0.6) 100%);
 }
 
-/* 日记详情移动端优化 */
-.diary-book-detail {
-  margin: -8px !important;
-  padding: 8px !important;
-  position: relative !important;
-  min-height: 100vh;
-  overflow: visible !important;
-}
-
-.diary-book-detail::before {
-  display: none !important;
-}
-
-.diary-book-detail::after {
-  display: none !important;
-  left: 0 !important;
-}
-
-/* 关键：移动端内容容器 */
-.diary-book-detail-content {
-  padding: 20px 16px !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  flex: 1 !important;
-  min-height: 0 !important;
-}
-
-.diary-book-detail-page {
-  padding: 30px 0 0 0 !important;
-  margin-top: 20px !important;
-}
-
-
-.diary-book-detail-title {
-  font-size: 22px !important;
-  margin: 0 0 12px 0 !important;
-  padding: 0 8px 12px 8px !important;
-  border-bottom-width: 2px !important;
-}
 
 .diary-book-detail-title::before {
   left: 8px !important;
@@ -3006,6 +2957,54 @@ background: linear-gradient(to bottom,
   width: 32px !important;
   height: 32px !important;
   font-size: 24px !important;
+}
+
+/* 日记详情移动端优化 */
+.diary-book-detail {
+  margin: -8px !important;
+  padding: 8px !important;
+  position: relative !important;
+  min-height: 100vh;
+  overflow: visible !important;
+}
+
+.diary-book-detail::before {
+  display: none !important;
+}
+
+.diary-book-detail::after {
+  display: none !important;
+  left: 0 !important;
+}
+
+/* 关键：移动端内容容器 */
+.diary-book-detail-content {
+  padding: 20px 16px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+}
+
+.diary-book-detail-page {
+  padding: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* 移动端返回按钮 */
+.diary-book-detail-page .diary-book-back-btn-in-content {
+  top: 0px !important;
+  left: 0px !important;
+  padding: 10px 16px !important;
+  font-size: 12px !important;
+  z-index: 2000 !important;
+}
+
+.diary-book-detail-title {
+  font-size: 22px !important;
+  margin: 50px 0 12px 0 !important;
+  padding: 0 8px 12px 8px !important;
+  border-bottom-width: 2px !important;
 }
 }
 
