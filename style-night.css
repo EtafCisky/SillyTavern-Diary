@@ -46,6 +46,7 @@
     --night-text-normal: #d0d0d8;          /* 正常文字 - 正文用 */
     --night-text-soft: #a0a0b0;            /* 柔和文字 - 次要用 */
     --night-text-dim: #707080;             /* 暗淡文字 - 提示用 */
+    --night-text-pale: #b8c5d1;           /* 特别浅的灰蓝色 - 作者目录和日记目录用 */
     --night-text-glow: var(--night-star-gold); /* 发光文字 */
     
     /* === 🔷 几何边框系统 === */
@@ -991,9 +992,9 @@
     font-family: 'Georgia', serif;
     font-size: 1.8rem;
     font-weight: 300;
-    color: #87ceeb;
+    color: var(--night-text-pale);
     letter-spacing: 2px;
-    text-shadow: 0 0 25px rgba(135, 206, 235, 0.6);
+    text-shadow: 0 0 25px rgba(184, 197, 209, 0.6);
     animation: spectrumCycle 8s ease-in-out infinite;
 }
 
@@ -1152,7 +1153,7 @@
 .diary-book-cover-subtitle {
     font-family: 'Consolas', monospace;
     font-size: 1.1rem;
-    color: var(--night-text-soft);
+    color: var(--night-text-pale);
     margin-bottom: 40px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
     line-height: 1.8;
@@ -1287,9 +1288,9 @@
     position: relative;
     font-size: 1.8rem;
     font-weight: 400;
-    color: #87ceeb;
+    color: var(--night-text-pale);
     letter-spacing: 3px;
-    text-shadow: 0 0 15px rgba(135, 206, 235, 0.6);
+    text-shadow: 0 0 15px rgba(184, 197, 209, 0.6);
     padding: 8px 0;
 }
 
@@ -1561,7 +1562,7 @@
 .diary-book-character-count {
     font-family: 'Consolas', monospace;
     font-size: 0.85rem;
-    color: var(--night-text-soft);
+    color: var(--night-text-pale);
     margin: 0;
     letter-spacing: 1px;
 }
@@ -1715,7 +1716,7 @@
 .diary-book-diary-character {
     font-family: 'Georgia', serif;
     font-size: 0.85rem;
-    color: var(--night-text-soft);
+    color: var(--night-text-pale);
     font-style: italic;
     letter-spacing: 0.8px;
     position: relative;
@@ -2130,14 +2131,14 @@
 .diary-book-detail-title {
     font-size: 2.2rem;
     font-weight: 600;
-    color: #87ceeb;
+    color: var(--night-text-pale);
     font-family: 'Georgia', serif;
     text-align: center;
     margin: 0 0 32px 0;
     padding: 0 0 24px 0;
     position: relative;
     letter-spacing: 2px;
-    text-shadow: 0 0 20px rgba(135, 206, 235, 0.6);
+    text-shadow: 0 0 20px rgba(184, 197, 209, 0.6);
     
     /* 🌟 底部装饰线 */
     border-bottom: 2px solid rgba(64, 224, 208, 0.3);
