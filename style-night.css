@@ -705,7 +705,10 @@
 .diary-book-content::before {
     content: '';
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: 
         radial-gradient(circle at 10% 18%, var(--night-star-gold) 1.5px, transparent 1.5px),
         radial-gradient(circle at 17% 52%, var(--night-star-blue) 1.5px, transparent 1.5px),
@@ -740,7 +743,10 @@
 .diary-book-content::after {
     content: '';
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   background: 
         radial-gradient(circle at 6% 35%, var(--night-star-purple) 1.5px, transparent 1.5px),
         radial-gradient(circle at 14% 62%, var(--night-star-cyan) 1.5px, transparent 1.5px),
@@ -778,7 +784,7 @@
     box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
     max-width: 900px;
     width: 90%;
-    max-height: 90vh;
+    max-height: 95vh;
   overflow: hidden;
     position: relative;
     display: flex;
@@ -2256,8 +2262,10 @@
 /* 🗑️ 删除按钮区域 */
 .diary-book-detail-actions {
     margin-top: 48px;
+    margin-bottom: 60px;
     text-align: center;
     padding-top: 32px;
+    padding-bottom: 20px;
     border-top: 1px solid rgba(135, 206, 235, 0.1);
     position: relative;
     z-index: 10;
@@ -2442,7 +2450,9 @@
     /* 🗑️ 移动端删除按钮 */
     .diary-book-detail-actions {
         margin-top: 32px;
+        margin-bottom: 40px;
         padding-top: 24px;
+        padding-bottom: 16px;
     }
     
     .diary-book-delete-btn {
