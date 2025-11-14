@@ -392,7 +392,10 @@
 /* === 🌙 夜间系列 - 创新自定义角色弹窗 === */
 .diary-custom-character-dialog {
   position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: linear-gradient(135deg, 
         rgba(0, 0, 0, 0.90) 0%, 
         rgba(0, 0, 0, 0.93) 100%);
@@ -912,7 +915,10 @@
 
 .diary-preset-dialog {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: radial-gradient(ellipse at center, 
         var(--night-void) 0%, 
         var(--night-space) 40%, 
@@ -927,7 +933,10 @@
 .diary-preset-dialog::before {
   content: '';
   position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: var(--night-flow-stars);
     opacity: 0.1;
     animation: auroraFlow 20s linear infinite;
@@ -1913,7 +1922,9 @@
 
 @media (max-width: 768px) {
     /* 移动端弹窗修复 */
-    .diary-book-dialog {
+    .diary-book-dialog,
+    .diary-custom-character-dialog,
+    .diary-preset-dialog {
         height: 100vh;
         height: 100dvh;
     }
