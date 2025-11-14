@@ -60,7 +60,7 @@ git clone https://github.com/EtafCisky/SillyTavern-Diary.git SillyTavern-Diary
 安装成功后，您应该能看到：
 
 - ✅ 在"扩展"页面能看到"📖 日记本"插件
-- ✅ 在聊天页面能看到圆形悬浮窗（📖图标）
+- ✅ 在聊天页面能看到圆形悬浮窗
 - ✅ 点击悬浮窗能展开三个功能按钮（📖日记本、✏️写日记、📝记录）
 
 ---
@@ -77,7 +77,7 @@ git clone https://github.com/EtafCisky/SillyTavern-Diary.git SillyTavern-Diary
 
 ### 第二步：开始写日记
 
-1. 在聊天页面找到圆形悬浮窗（📖图标）
+1. 在聊天页面找到圆形悬浮窗
 2. 点击悬浮窗展开三个功能按钮
 3. 点击 **✏️ 写日记** 按钮
 4. 在弹出的对话框中：

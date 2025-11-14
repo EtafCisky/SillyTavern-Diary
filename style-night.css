@@ -967,9 +967,9 @@
     font-family: 'Georgia', serif;
     font-size: 1.8rem;
     font-weight: 300;
-    color: var(--night-text-glow);
+    color: #87ceeb;
     letter-spacing: 2px;
-    text-shadow: 0 0 25px var(--night-aurora-gold);
+    text-shadow: 0 0 25px rgba(135, 206, 235, 0.6);
     animation: spectrumCycle 8s ease-in-out infinite;
 }
 
@@ -1042,7 +1042,7 @@
 }
 
 .diary-book-view[style*="display: block"] {
-    display: flex !important;
+  display: flex !important;
     flex-direction: column;
 }
 
@@ -1245,6 +1245,7 @@
     box-shadow: var(--night-shadow-float);
 }
 
+/* 🌟 通用视图标题基础样式 */
 .diary-book-view-title {
     margin: 0;
     color: var(--night-text-glow);
@@ -1255,6 +1256,52 @@
     text-align: center;
     text-shadow: 0 0 20px var(--night-aurora-gold);
     letter-spacing: 2px;
+}
+
+/* 📚 日记目录页面标题特殊装饰 */
+.diary-book-diary-list .diary-book-view-title {
+    position: relative;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #87ceeb;
+    letter-spacing: 3px;
+    text-shadow: 0 0 15px rgba(135, 206, 235, 0.6);
+    padding: 8px 0;
+}
+
+/* 📚 日记标题装饰边框 */
+.diary-book-diary-list .diary-book-view-title::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        #87ceeb 20%, 
+        #87ceeb 50%, 
+        #87ceeb 80%, 
+        transparent 100%);
+    animation: shimmerDecoration 3s ease-in-out infinite;
+}
+
+/* 📚 日记标题底部装饰 */
+.diary-book-diary-list .diary-book-view-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        #87ceeb 30%, 
+        #87ceeb 70%, 
+        transparent 100%);
+    animation: shimmerDecoration 3s ease-in-out infinite reverse;
 }
 
 .diary-book-nav-spacer {
@@ -1294,13 +1341,41 @@
     min-height: 0;
 }
 
+/* 🌌 日记网格 - 星系布局设计 */
 .diary-book-diary-grid {
     display: block;
-    padding: 24px;
+    padding: 32px 28px;
     overflow-y: auto;
     overflow-x: hidden;
     flex: 1;
     min-height: 0;
+    position: relative;
+    
+    /* 🌟 背景星空效果 */
+    background: 
+        radial-gradient(circle at 15% 25%, rgba(64, 224, 208, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(135, 206, 235, 0.02) 0%, transparent 50%),
+        radial-gradient(circle at 50% 10%, rgba(70, 130, 180, 0.02) 0%, transparent 40%);
+}
+
+/* 🌌 日记网格装饰粒子 */
+.diary-book-diary-grid::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    width: 3px;
+    height: 3px;
+    background: var(--night-star-cyan);
+    border-radius: 50%;
+    box-shadow: 
+        200px 50px 0 -1px var(--night-star-blue),
+        400px 120px 0 -1px var(--night-star-purple),
+        150px 200px 0 -1px var(--night-star-gold),
+        350px 180px 0 -1px var(--night-star-cyan),
+        80px 300px 0 -1px var(--night-star-blue);
+    animation: starTwinkle 8s ease-in-out infinite;
+    pointer-events: none;
 }
 
 /* === 空状态 === */
@@ -1314,39 +1389,42 @@
     justify-content: center;
 }
 
-/* === 自定义滚动条样式 === */
+/* 自定义滚动条样式 - 统一应用到所有页面 */
 
 .diary-book-character-grid::-webkit-scrollbar,
-.diary-book-diary-grid::-webkit-scrollbar {
+.diary-book-diary-grid::-webkit-scrollbar,
+.diary-book-detail-content::-webkit-scrollbar {
     width: 8px;
 }
 
 .diary-book-character-grid::-webkit-scrollbar-track,
-.diary-book-diary-grid::-webkit-scrollbar-track {
+.diary-book-diary-grid::-webkit-scrollbar-track,
+.diary-book-detail-content::-webkit-scrollbar-track {
     background: rgba(10, 10, 20, 0.4);
     border-radius: 4px;
 }
 
 .diary-book-character-grid::-webkit-scrollbar-thumb,
-.diary-book-diary-grid::-webkit-scrollbar-thumb {
+.diary-book-diary-grid::-webkit-scrollbar-thumb,
+.diary-book-detail-content::-webkit-scrollbar-thumb {
     background: linear-gradient(to bottom,
         rgba(64, 224, 208, 0.3) 0%,
         rgba(70, 130, 180, 0.4) 50%,
-        rgba(135, 206, 235, 0.3) 100%);
+        rgba(64, 224, 208, 0.3) 100%);
     border-radius: 4px;
     transition: all 0.3s ease;
 }
 
 .diary-book-character-grid::-webkit-scrollbar-thumb:hover,
-.diary-book-diary-grid::-webkit-scrollbar-thumb:hover {
+.diary-book-diary-grid::-webkit-scrollbar-thumb:hover,
+.diary-book-detail-content::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(to bottom,
         rgba(64, 224, 208, 0.5) 0%,
         rgba(70, 130, 180, 0.6) 50%,
-        rgba(135, 206, 235, 0.5) 100%);
-    box-shadow: 0 0 8px rgba(64, 224, 208, 0.3);
+        rgba(64, 224, 208, 0.5) 100%);
 }
 
-/* === 🎴 角色卡片样式 - 重新设计 === */
+/* 角色卡片样式 - 重新设计 */
 
 .diary-book-character-card {
     background: linear-gradient(160deg, 
@@ -1477,127 +1555,234 @@
     transform: translateX(8px) scale(1.2);
 }
 
-/* === 📔 日记条目卡片样式 - 全新设计 === */
+/* === 📔 日记条目卡片样式 - 创新星系设计 === */
 
 .diary-book-diary-card {
-    background: linear-gradient(150deg, 
-        rgba(20, 20, 32, 0.6) 0%, 
-        rgba(10, 10, 20, 0.8) 100%);
-    border-radius: 16px 4px 16px 4px;
-    padding: 24px 28px;
-    margin-bottom: 18px;
+    /* 🌌 星系卡片基础样式 */
+    background: linear-gradient(135deg, 
+        rgba(15, 15, 25, 0.85) 0%, 
+        rgba(20, 20, 32, 0.75) 30%,
+        rgba(10, 10, 20, 0.90) 70%,
+        rgba(5, 5, 15, 0.95) 100%);
+    
+    /* 🔷 简洁四边形设计 - 部分圆角 */
+    border-radius: 0 16px 16px 0;
+    
+    padding: 32px 40px 32px 48px;
+    margin: 24px 8px;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    border: 1px solid rgba(135, 206, 235, 0.1);
-    border-left: 4px solid rgba(70, 130, 180, 0.3);
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     overflow: hidden;
+    
+    /* 🌟 多层边框系统 */
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    
+    /* 🎭 3D悬浮效果 */
+    transform: perspective(1000px) rotateX(2deg) rotateY(-1deg);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.6),
+        0 4px 16px rgba(70, 130, 180, 0.1),
+        inset 0 1px 0 rgba(135, 206, 235, 0.08);
 }
 
+/* 🌈 极光边框装饰 */
 .diary-book-diary-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle at top right, 
-        rgba(135, 206, 235, 0.08) 0%, 
-        transparent 70%);
+    inset: -2px;
+    background: linear-gradient(45deg, 
+        rgba(64, 224, 208, 0.4) 0%, 
+        rgba(135, 206, 235, 0.3) 25%, 
+        rgba(70, 130, 180, 0.2) 50%, 
+        rgba(221, 160, 221, 0.3) 75%, 
+        rgba(64, 224, 208, 0.4) 100%);
+    border-radius: 0 18px 18px 0;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    animation: auroraFlow 12s linear infinite;
+}
+
+/* ⭐ 删除右侧圆形装饰 */
+
+/* 🚀 悬浮交互效果 */
+.diary-book-diary-card:hover {
+    /* 🎭 简洁变换效果 */
+    transform: translateY(-4px) translateX(6px) scale(1.01);
+    
+    /* 🌟 简洁阴影效果 */
+    box-shadow: 
+        0 16px 48px rgba(0, 0, 0, 0.8),
+        inset 0 1px 0 rgba(135, 206, 235, 0.1);
+}
+
+.diary-book-diary-card:hover::before {
+    opacity: 0.6;
+}
+
+/* 📋 日记卡片头部区域 */
+.diary-book-diary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    position: relative;
+}
+
+/* 🌟 头部装饰线 */
+.diary-book-diary-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 20%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        rgba(64, 224, 208, 0.6) 0%, 
+        rgba(135, 206, 235, 0.4) 60%, 
+        transparent 100%);
+    border-radius: 1px;
+}
+
+/* 📅 创新日期标签 */
+.diary-book-diary-date {
+    font-family: 'Consolas', monospace;
+    font-size: 0.8rem;
+    color: var(--night-text-bright);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 8px 16px;
+    
+    /* 🔷 六边形日期标签 */
+    background: linear-gradient(135deg, 
+        rgba(64, 224, 208, 0.2) 0%, 
+        rgba(70, 130, 180, 0.15) 100%);
+    clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%);
+    
+    border: 1px solid rgba(64, 224, 208, 0.3);
+    position: relative;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px rgba(64, 224, 208, 0.5);
+}
+
+/* 📅 日期标签发光效果 */
+.diary-book-diary-date::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, 
+        rgba(64, 224, 208, 0.3) 0%, 
+        rgba(135, 206, 235, 0.2) 50%, 
+        rgba(64, 224, 208, 0.3) 100%);
+    clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%);
+    z-index: -1;
     opacity: 0;
     transition: opacity 0.4s ease;
 }
 
-.diary-book-diary-card::after {
-    content: '';
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    width: 6px;
-    height: 6px;
-    background: var(--night-star-blue);
-    border-radius: 50%;
-    opacity: 0.3;
-    transition: all 0.4s ease;
+.diary-book-diary-card:hover .diary-book-diary-date::before {
+    opacity: 1;
 }
 
-.diary-book-diary-card:hover {
-    transform: translateY(-2px) translateX(4px);
-    background: linear-gradient(150deg, 
-        rgba(20, 20, 32, 0.8) 0%, 
-        rgba(10, 10, 20, 0.95) 100%);
-    border-left-color: var(--night-star-cyan);
-    border-left-width: 5px;
-    box-shadow: -6px 0 20px rgba(70, 130, 180, 0.15),
-                0 8px 28px rgba(0, 0, 0, 0.5);
-}
-
-.diary-book-diary-card:hover::before {
-    opacity: 1; 
-}
-
-.diary-book-diary-card:hover::after {
-    opacity: 0.8;
-    box-shadow: 0 0 12px var(--night-star-cyan);
-}
-
-.diary-book-diary-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 14px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(135, 206, 235, 0.06);
-}
-
-.diary-book-diary-date {
-    font-family: 'Consolas', monospace;
-    font-size: 0.75rem;
-    color: var(--night-star-cyan);
-    font-weight: 600;
-    letter-spacing: 1px;
-    padding: 4px 10px;
-    background: rgba(70, 130, 180, 0.1);
-    border-radius: 6px;
-    border: 1px solid rgba(70, 130, 180, 0.15);
-}
-
+/* 👤 角色名称样式 */
 .diary-book-diary-character {
     font-family: 'Georgia', serif;
-    font-size: 0.8rem;
-    color: var(--night-text-dim);
+    font-size: 0.85rem;
+    color: var(--night-text-soft);
     font-style: italic;
+    letter-spacing: 0.8px;
+    position: relative;
+    padding-left: 12px;
 }
 
+/* 👤 角色名称装饰 */
+.diary-book-diary-character::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--night-star-purple);
+    font-size: 0.7rem;
+    animation: starTwinkle 4s ease-in-out infinite;
+}
+
+/* 📖 日记预览文本 */
 .diary-book-diary-preview {
     font-family: 'Georgia', serif;
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: var(--night-text-normal);
-    line-height: 1.8;
-    letter-spacing: 0.3px;
-    margin: 0 0 12px 0;
+    line-height: 1.9;
+    letter-spacing: 0.5px;
+    margin: 0 0 18px 0;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+    line-clamp: 3;
     overflow: hidden;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    position: relative;
+    padding-left: 20px;
 }
 
+/* 📖 预览文本装饰引号 */
+.diary-book-diary-preview::before {
+    content: '"';
+    position: absolute;
+    left: 0;
+    top: -8px;
+    font-size: 2rem;
+    color: var(--night-star-cyan);
+    opacity: 0.3;
+    font-family: 'Georgia', serif;
+    line-height: 1;
+}
+
+/* 🔚 日记卡片底部区域 */
 .diary-book-diary-footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
+    margin-top: auto;
+    padding-top: 12px;
 }
 
+/* ⭐ 评分或状态指示器 */
+.diary-book-diary-footer::before {
+    content: '';
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        var(--night-star-gold) 0%, 
+        var(--night-star-blue) 50%, 
+        transparent 100%);
+    border-radius: 1px;
+}
+
+/* ➡️ 创新箭头指示器 */
 .diary-book-diary-arrow {
-    color: rgba(135, 206, 235, 0.4);
-    font-size: 18px;
-    transition: all 0.4s ease;
+    color: rgba(135, 206, 235, 0.5);
+    font-size: 20px;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(135, 206, 235, 0.05);
+    border: 1px solid rgba(135, 206, 235, 0.1);
 }
 
+/* ➡️ 箭头悬浮效果 */
 .diary-book-diary-card:hover .diary-book-diary-arrow {
     color: var(--night-star-cyan);
-    transform: translateX(4px);
+    background: rgba(64, 224, 208, 0.15);
+    border-color: rgba(64, 224, 208, 0.3);
+    transform: translateX(6px) scale(1.1);
+    box-shadow: 0 0 16px rgba(64, 224, 208, 0.4);
 }
 
 /* === 空状态页面样式 === */
@@ -1770,6 +1955,496 @@
     
     .diary-book-empty-hint {
         font-size: 14px;
+    }
+    
+    /* 📱 日记卡片移动端优化 */
+    .diary-book-diary-card {
+        /* 🔷 保持四边形设计 */
+        border-radius: 0 12px 12px 0;
+        padding: 24px 28px 24px 32px;
+        margin: 16px 4px;
+        transform: none;
+    }
+    
+    .diary-book-diary-card:hover {
+        transform: translateY(-2px) translateX(3px) scale(1.005);
+    }
+    
+    /* 📅 移动端日期标签优化 */
+    .diary-book-diary-date {
+        font-size: 0.7rem;
+        padding: 6px 12px;
+        letter-spacing: 1px;
+    }
+    
+    /* 📖 移动端预览文本优化 */
+    .diary-book-diary-preview {
+        font-size: 0.9rem;
+        line-height: 1.7;
+        -webkit-line-clamp: 2;
+        padding-left: 16px;
+    }
+    
+    .diary-book-diary-preview::before {
+        font-size: 1.5rem;
+        top: -6px;
+    }
+    
+    /* 📚 移动端日记标题优化 */
+    .diary-book-diary-list .diary-book-view-title {
+        font-size: 1.4rem;
+        letter-spacing: 2px;
+        padding: 6px 0;
+    }
+    
+    .diary-book-diary-list .diary-book-view-title::before {
+        width: 80px;
+    }
+    
+    .diary-book-diary-list .diary-book-view-title::after {
+        width: 60px;
+    }
+    
+    /* 🌌 移动端网格背景优化 */
+    .diary-book-diary-grid {
+        padding: 20px 16px;
+    }
+    
+    .diary-book-diary-grid::before {
+        box-shadow: 
+            150px 40px 0 -1px var(--night-star-blue),
+            280px 90px 0 -1px var(--night-star-purple),
+            100px 150px 0 -1px var(--night-star-gold),
+            250px 130px 0 -1px var(--night-star-cyan);
+    }
+}
+
+/* ========================================= */
+/*            📖 日记详情页面样式             */
+/* ========================================= */
+
+/* 🌌 日记详情页面容器 - 深空阅读环境 */
+.diary-book-detail {
+    background: linear-gradient(135deg, 
+        var(--night-void) 0%, 
+        var(--night-space) 30%, 
+        var(--night-nebula) 70%, 
+        var(--night-void) 100%);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 🌟 背景星空装饰 */
+.diary-book-detail::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(64, 224, 208, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(135, 206, 235, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 50% 20%, rgba(70, 130, 180, 0.03) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ✨ 浮动粒子装饰 */
+.diary-book-detail::after {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    width: 4px;
+    height: 4px;
+    background: var(--night-star-cyan);
+    border-radius: 50%;
+    box-shadow: 
+        300px 100px 0 -1px var(--night-star-blue),
+        150px 250px 0 -1px var(--night-star-purple),
+        450px 180px 0 -1px var(--night-star-gold),
+        200px 350px 0 -1px var(--night-star-cyan),
+        380px 320px 0 -1px var(--night-star-blue),
+        100px 150px 0 -1px var(--night-star-purple);
+    animation: starTwinkle 12s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* 📄 日记详情内容容器 */
+.diary-book-detail-content {
+    padding: 40px 50px;
+    position: relative;
+    z-index: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+    min-height: 0;
+}
+
+/* 📖 日记页面内容 - 删除卡片样式，直接显示 */
+.diary-book-detail-page {
+    padding: 40px 0 0 0;
+    position: relative;
+    margin-top: 40px;
+}
+
+/* 📝 日记标题样式 */
+.diary-book-detail-title {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #87ceeb;
+    font-family: 'Georgia', serif;
+    text-align: center;
+    margin: 0 0 32px 0;
+    padding: 0 0 24px 0;
+    position: relative;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(135, 206, 235, 0.6);
+    
+    /* 🌟 底部装饰线 */
+    border-bottom: 2px solid rgba(64, 224, 208, 0.3);
+}
+
+/* 📝 标题装饰星号 */
+.diary-book-detail-title::before,
+.diary-book-detail-title::after {
+    content: '✦';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--night-star-gold);
+    font-size: 1.5rem;
+    animation: starTwinkle 6s ease-in-out infinite;
+}
+
+.diary-book-detail-title::before {
+    left: -40px;
+}
+
+.diary-book-detail-title::after {
+    right: -40px;
+    animation-delay: 3s;
+}
+
+/* ✦ 装饰性分隔线 */
+.diary-book-detail-divider {
+    text-align: center;
+    margin: 32px 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ✦ 分隔线两侧装饰 */
+.diary-book-detail-divider::before,
+.diary-book-detail-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(64, 224, 208, 0.4) 30%, 
+        rgba(135, 206, 235, 0.6) 50%, 
+        rgba(64, 224, 208, 0.4) 70%, 
+        transparent 100%);
+    margin: 0 20px;
+}
+
+/* ✦ 装饰符号 */
+.diary-book-detail-ornament {
+    display: inline-block;
+    font-size: 1.8rem;
+    color: var(--night-star-gold);
+    animation: starTwinkle 4s ease-in-out infinite;
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
+}
+
+/* 🕒 日记时间样式 */
+.diary-book-detail-time {
+    font-size: 1rem;
+    color: var(--night-text-soft);
+    font-family: 'Consolas', monospace;
+    text-align: center;
+    margin: 0 0 40px 0;
+    padding: 12px 24px;
+    background: rgba(70, 130, 180, 0.1);
+    border: 1px solid rgba(64, 224, 208, 0.2);
+    border-radius: 20px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    
+    /* 🌟 发光效果 */
+    box-shadow: 0 0 15px rgba(64, 224, 208, 0.1);
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* 📖 日记内容文本 */
+.diary-book-detail-text {
+    font-size: 1.1rem;
+    line-height: 2;
+    color: var(--night-text-bright);
+    font-family: 'Georgia', serif;
+    margin: 0 0 40px 0;
+    padding: 32px 0;
+    position: relative;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* 📖 内容左侧装饰线 */
+.diary-book-detail-text::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20%;
+    bottom: 20%;
+    width: 4px;
+    background: linear-gradient(180deg, 
+        transparent 0%, 
+        var(--night-star-cyan) 20%, 
+        var(--night-star-blue) 50%, 
+        var(--night-star-cyan) 80%, 
+        transparent 100%);
+    border-radius: 2px;
+}
+
+/* 📖 段落样式 */
+.diary-book-detail-text p {
+    margin-bottom: 20px;
+    text-indent: 2em;
+    font-family: inherit;
+    line-height: inherit;
+}
+
+/* 🗑️ 删除按钮区域 */
+.diary-book-detail-actions {
+    margin-top: 48px;
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid rgba(135, 206, 235, 0.1);
+    position: relative;
+    z-index: 10;
+}
+
+/* 🗑️ 删除按钮样式 */
+.diary-book-delete-btn {
+    background: linear-gradient(135deg, 
+        rgba(220, 20, 60, 0.8) 0%, 
+        rgba(178, 34, 34, 0.9) 100%);
+    color: var(--night-text-bright);
+    border: 2px solid rgba(220, 20, 60, 0.4);
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Georgia', serif;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    position: relative;
+    z-index: 20;
+    
+    /* 🌟 按钮阴影 */
+    box-shadow: 
+        0 8px 24px rgba(220, 20, 60, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* 🗑️ 删除按钮悬停效果 */
+.diary-book-delete-btn:hover {
+    background: linear-gradient(135deg, 
+        rgba(220, 20, 60, 1) 0%, 
+        rgba(178, 34, 34, 1) 100%);
+    border-color: rgba(220, 20, 60, 0.8);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 12px 32px rgba(220, 20, 60, 0.4),
+        0 0 20px rgba(220, 20, 60, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* 📚 隐藏详情页标题（使用导航标题） */
+.diary-book-detail .diary-book-view-title {
+    display: none;
+}
+
+/* 📚 隐藏详情页导航占位符 */
+.diary-book-detail .diary-book-nav-spacer {
+    display: none;
+}
+
+/* 📚 详情页导航头部 - 只显示返回按钮 */
+.diary-book-detail .diary-book-nav-header {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    height: auto;
+}
+
+/* 🔙 日记内容卡片中的返回按钮 - 固定在卡片左上角 */
+.diary-book-detail-page .diary-book-back-btn-in-content {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    z-index: 1000;
+    background: linear-gradient(135deg, 
+        rgba(64, 224, 208, 0.9) 0%, 
+        rgba(70, 130, 180, 0.9) 100%);
+    color: var(--night-text-bright);
+    border: 2px solid rgba(64, 224, 208, 0.4);
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: 'Georgia', serif;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    
+    /* 🌟 按钮阴影 */
+    box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(64, 224, 208, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* 🔙 返回按钮悬停效果 */
+.diary-book-detail-page .diary-book-back-btn-in-content:hover {
+    background: linear-gradient(135deg, 
+        rgba(64, 224, 208, 1) 0%, 
+        rgba(70, 130, 180, 1) 100%);
+    border-color: rgba(64, 224, 208, 0.8);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 
+        0 12px 32px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(64, 224, 208, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* 📱 日记详情页面移动端适配 */
+@media (max-width: 768px) {
+    /* 🌌 移动端页面容器 */
+    .diary-book-detail {
+        padding: 0;
+        min-height: auto;
+    }
+    
+    /* 📄 移动端内容容器 */
+    .diary-book-detail-content {
+        padding: 20px 16px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    
+    /* 📖 移动端页面内容 */
+    .diary-book-detail-page {
+        padding: 0;
+    }
+    
+    /* 📝 移动端标题 */
+    .diary-book-detail-title {
+        font-size: 1.8rem;
+        margin: 0 0 24px 0;
+        padding: 0 0 16px 0;
+        letter-spacing: 1px;
+    }
+    
+    .diary-book-detail-title::before,
+    .diary-book-detail-title::after {
+        font-size: 1.2rem;
+    }
+    
+    .diary-book-detail-title::before {
+        left: -24px;
+    }
+    
+    .diary-book-detail-title::after {
+        right: -24px;
+    }
+    
+    /* ✦ 移动端分隔线 */
+    .diary-book-detail-divider {
+        margin: 24px 0;
+    }
+    
+    .diary-book-detail-divider::before,
+    .diary-book-detail-divider::after {
+        margin: 0 12px;
+    }
+    
+    .diary-book-detail-ornament {
+        font-size: 1.4rem;
+    }
+    
+    /* 🕒 移动端时间 */
+    .diary-book-detail-time {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+        margin: 0 0 32px 0;
+        letter-spacing: 1px;
+    }
+    
+    /* 📖 移动端内容文本 */
+    .diary-book-detail-text {
+        font-size: 1rem;
+        line-height: 1.8;
+        padding: 24px 0;
+        margin: 0 0 32px 0;
+    }
+    
+    .diary-book-detail-text p {
+        margin-bottom: 16px;
+        text-indent: 1.5em;
+    }
+    
+    /* 🗑️ 移动端删除按钮 */
+    .diary-book-detail-actions {
+        margin-top: 32px;
+        padding-top: 24px;
+    }
+    
+    .diary-book-delete-btn {
+        padding: 12px 28px;
+        font-size: 0.9rem;
+    }
+    
+    /* ✨ 移动端背景粒子优化 */
+    .diary-book-detail::after {
+        box-shadow: 
+            200px 80px 0 -1px var(--night-star-blue),
+            100px 180px 0 -1px var(--night-star-purple),
+            280px 140px 0 -1px var(--night-star-gold),
+            150px 250px 0 -1px var(--night-star-cyan);
+    }
+    
+    /* 🔙 移动端返回按钮 */
+    .diary-book-detail-page .diary-book-back-btn-in-content {
+        top: -15px;
+        left: -10px;
+        padding: 10px 16px;
+        font-size: 0.8rem;
+    }
+    
+    /* 📖 移动端页面内容 */
+    .diary-book-detail-page {
+        padding: 30px 0 0 0;
+        margin-top: 20px;
     }
 }
 

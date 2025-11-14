@@ -525,12 +525,14 @@ display: none !important;
 display: none !important;
 }
 
-/* 日记详情页导航头部样式 */
+/* 日记详情页导航头部样式 - 透明化 */
 .diary-book-detail .diary-book-nav-header {
-border-bottom: none !important;
-margin-bottom: 0 !important;
-padding-bottom: 0 !important;
-min-height: 0 !important;
+background: transparent !important;
+border: none !important;
+padding: 0 !important;
+margin: 0 !important;
+position: relative !important;
+height: auto !important;
 }
 
 .diary-book-view-title {
@@ -1711,19 +1713,21 @@ line-height: 1.6;
 
 /* 详情内容容器 */
 .diary-book-detail-content {
-padding: 20px;
+padding: 40px 50px;
 position: relative;
+z-index: 10;
+overflow-y: auto;
+overflow-x: hidden;
+flex: 1;
+min-height: 0;
 }
 
-/* 详情页面容器 */
+/* 详情页面容器 - 删除卡片样式 */
 .diary-book-detail-page {
-background: rgba(255, 255, 255, 0.4) !important;
-padding: 40px 35px !important;
-border-radius: 12px !important;
-border: 2px solid rgba(196, 168, 124, 0.3) !important;
-min-height: 400px;
+padding: 40px 0 0 0 !important;
 position: relative;
-box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+margin-top: 40px;
+z-index: 20;
 }
 
 /* 详情装饰分隔线 */
@@ -1797,10 +1801,38 @@ left: calc(2.5% + 35px) !important;
 top: calc(50vh - 39vh + 35px) !important;
 }
 
-/* 日记详情页的返回按钮 */
-#diary-book-detail-view .diary-book-nav-btn {
-left: calc(2.5% + 35px) !important;
-top: calc(50vh - 39vh + 35px) !important;
+/* 日记详情页的返回按钮 - 固定在内容卡片上 */
+.diary-book-detail-page .diary-book-back-btn-in-content {
+position: absolute !important;
+top: -20px !important;
+left: -20px !important;
+z-index: 2000 !important;
+background: 
+  linear-gradient(135deg, #d2b48c 0%, #deb887 50%, #d2b48c 100%) !important;
+color: #f9f6f1 !important;
+border: 2px solid rgba(196, 168, 124, 0.6) !important;
+padding: 12px 20px !important;
+border-radius: 8px !important;
+font-size: 14px !important;
+font-weight: 600 !important;
+font-family: 'Georgia', serif !important;
+cursor: pointer !important;
+transition: all 0.4s ease !important;
+letter-spacing: 0.5px !important;
+text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3) !important;
+box-shadow: 
+  0 8px 24px rgba(0, 0, 0, 0.15),
+  inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+/* 经典主题返回按钮悬停效果 */
+.diary-book-detail-page .diary-book-back-btn-in-content:hover {
+background: 
+  linear-gradient(135deg, #bc9a6a 0%, #d2b48c 50%, #bc9a6a 100%) !important;
+transform: translateY(-2px) scale(1.05) !important;
+box-shadow: 
+  0 12px 32px rgba(0, 0, 0, 0.2),
+  inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
 .diary-book-nav-btn::before {
@@ -1989,21 +2021,19 @@ text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
 
 /* ========== 9. 日记详情页面样式 ========== */
 
-/* 详情容器 */
+/* 详情容器 - 保持正常布局但扩展背景 */
 .diary-book-detail {
 background: 
   linear-gradient(135deg, #f9f6f1 0%, #f0ebe3 30%, #e8e0d6 70%, #e0d5c3 100%) !important;
-padding: 40px 50px !important;
-border: 3px solid #c4a87c !important;
-margin: 15px !important;
-border-radius: 16px !important;
-text-align: left;
-position: relative;
-box-shadow: 
-  inset 0 3px 8px rgba(0, 0, 0, 0.15),
-  inset 0 -2px 0 rgba(255, 255, 255, 0.6),
-  0 10px 30px rgba(0, 0, 0, 0.2) !important;
-overflow: hidden;
+position: relative !important;
+overflow: visible;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+z-index: 1;
+/* 适度扩展背景 */
+margin: -15px !important;
+padding: 15px !important;
 }
 
 .diary-book-detail::before {
@@ -2101,6 +2131,7 @@ font-family: 'Georgia', 'Times New Roman', serif !important;
 position: relative;
 margin-top: 20px;
 text-shadow: none !important;
+text-align: left !important;
 }
 
 .diary-book-detail-text::before {
@@ -2119,6 +2150,7 @@ margin-bottom: 16px;
 text-indent: 2em;
 font-family: inherit !important;
 text-shadow: none !important;
+text-align: left !important;
 }
 
 /* 日记详情操作按钮区域 */
@@ -2754,9 +2786,39 @@ box-shadow:
   width: calc(100% - 25px) !important;
 }
 
+/* 经典主题滚动条样式 */
+.diary-book-detail-content::-webkit-scrollbar {
+width: 8px;
+}
+
+.diary-book-detail-content::-webkit-scrollbar-track {
+background: rgba(196, 168, 124, 0.1);
+border-radius: 4px;
+}
+
+.diary-book-detail-content::-webkit-scrollbar-thumb {
+background: linear-gradient(to bottom,
+  rgba(196, 168, 124, 0.4) 0%,
+  rgba(210, 180, 140, 0.5) 50%,
+  rgba(196, 168, 124, 0.4) 100%);
+border-radius: 4px;
+transition: all 0.3s ease;
+}
+
+.diary-book-detail-content::-webkit-scrollbar-thumb:hover {
+background: linear-gradient(to bottom,
+  rgba(196, 168, 124, 0.6) 0%,
+  rgba(210, 180, 140, 0.7) 50%,
+  rgba(196, 168, 124, 0.6) 100%);
+}
+
 /* 日记详情移动端优化 */
 .diary-book-detail {
-  padding: 8px 8px 8px 8px !important;
+  margin: -8px !important;
+  padding: 8px !important;
+  position: relative !important;
+  min-height: 100vh;
+  overflow: visible !important;
 }
 
 .diary-book-detail::before {
@@ -2768,14 +2830,27 @@ box-shadow:
   left: 0 !important;
 }
 
-/* 关键：移除中间层容器的padding */
+/* 关键：移动端内容容器 */
 .diary-book-detail-content {
-  padding: 0 !important;
+  padding: 20px 16px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  flex: 1 !important;
+  min-height: 0 !important;
 }
 
 .diary-book-detail-page {
-  padding: 8px !important;
-  margin: 0 !important;
+  padding: 30px 0 0 0 !important;
+  margin-top: 20px !important;
+}
+
+/* 移动端返回按钮 */
+.diary-book-detail-page .diary-book-back-btn-in-content {
+  top: -15px !important;
+  left: -10px !important;
+  padding: 10px 16px !important;
+  font-size: 12px !important;
+  z-index: 2000 !important;
 }
 
 .diary-book-detail-title {
@@ -2808,6 +2883,7 @@ box-shadow:
   font-size: 15px !important;
   line-height: 1.7 !important;
   margin: 0 !important;
+  text-align: left !important;
 }
 
 .diary-book-detail-text::before {
@@ -2818,6 +2894,7 @@ box-shadow:
 .diary-book-detail-text p {
   margin-bottom: 12px !important;
   text-indent: 2em !important;
+  text-align: left !important;
 }
 
 .diary-book-detail-actions {

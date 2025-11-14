@@ -2171,8 +2171,8 @@ function createFloatWindow() {
     $('#diary-float-window').appendTo('body');
     floatWindow.element = $('#diary-float-window');
     
-    // 设置初始位置
-    resetFloatWindowPosition();
+    // 恢复之前保存的位置
+    restoreFloatWindowPosition();
     
     // 绑定悬浮窗事件
     bindFloatWindowEvents();
@@ -2487,6 +2487,53 @@ function saveFloatWindowPosition() {
     
     extension_settings[extensionName].floatWindowPosition = position;
     saveSettings();
+}
+
+// 恢复悬浮窗位置（从设置中恢复之前保存的位置）
+function restoreFloatWindowPosition() {
+    console.log('🔄 开始恢复悬浮窗位置...');
+    
+    if (!floatWindow.element || floatWindow.element.length === 0) {
+        console.error('❌ 悬浮窗元素不存在，无法恢复位置');
+        return;
+    }
+    
+    const settings = getCurrentSettings();
+    const savedPosition = settings.floatWindowPosition;
+    
+    // 如果没有保存的位置，或者位置为默认的(0,0)，则使用屏幕中央
+    if (!savedPosition || (savedPosition.x === 0 && savedPosition.y === 0)) {
+        console.log('📍 没有保存的位置或位置为默认值，使用屏幕中央');
+        resetFloatWindowPosition();
+        return;
+    }
+    
+    console.log(`📍 恢复到保存的位置: (${savedPosition.x}, ${savedPosition.y})`);
+    
+    // 设置悬浮窗到保存的位置
+    floatWindow.element.css({
+        left: savedPosition.x + 'px',
+        top: savedPosition.y + 'px',
+        position: 'fixed'
+    });
+    
+    // 验证位置是否在屏幕范围内，如果不在则重置到中央
+    setTimeout(() => {
+        const windowWidth = $(window).width();
+        const windowHeight = $(window).height();
+        const elementWidth = floatWindow.element.outerWidth(true) || 60;
+        const elementHeight = floatWindow.element.outerHeight(true) || 60;
+        
+        // 检查位置是否超出屏幕边界
+        if (savedPosition.x < 0 || savedPosition.y < 0 || 
+            savedPosition.x + elementWidth > windowWidth || 
+            savedPosition.y + elementHeight > windowHeight) {
+            console.log('⚠️ 保存的位置超出屏幕范围，重置到中央');
+            resetFloatWindowPosition();
+        } else {
+            console.log('✅ 悬浮窗位置恢复完成');
+        }
+    }, 100);
 }
 
 // ===== 自定义角色弹窗功能 =====
