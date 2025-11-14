@@ -2758,6 +2758,14 @@ box-shadow:
   top: calc(50vh - 39vh + 20px) !important;
 }
 
+/* 移动端日记详情页面内容卡片中的返回按钮 - 固定在屏幕左上角 */
+.diary-book-detail-page .diary-book-back-btn-in-content {
+  position: fixed !important;
+  top: 20px !important;
+  left: 20px !important;
+  z-index: 3000 !important;
+}
+
 /* 角色列表标题和装饰调整 */
 .diary-book-character-list .diary-book-view-title {
   font-size: 24px !important;
@@ -2846,10 +2854,10 @@ background: linear-gradient(to bottom,
 
 /* 移动端返回按钮 */
 .diary-book-detail-page .diary-book-back-btn-in-content {
-  top: -50px !important;
-  left: 5px !important;
-  padding: 8px 14px !important;
-  font-size: 11px !important;
+  top: -15px !important;
+  left: -10px !important;
+  padding: 10px 16px !important;
+  font-size: 12px !important;
   z-index: 2000 !important;
 }
 
