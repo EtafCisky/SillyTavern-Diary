@@ -1565,6 +1565,11 @@
     animation: auroraFlow 40s linear infinite;
   pointer-events: none;
     opacity: 0.6;
+    /* 硬件加速优化 - 防止移动端闪烁 */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: background-position;
 }
 
 .diary-book-cover-content {
@@ -2423,49 +2428,14 @@
         height: 100dvh;
     }
     
-    /* 📱 移动端封面性能优化 - 修复闪烁问题 */
-    
-    /* 禁用移动网格动画，防止闪烁 */
-    .diary-book-cover::after {
-        animation: none !important;
-        opacity: 0.3;
-        /* 使用静态背景代替动画 */
-        background: 
-            linear-gradient(45deg, transparent 48%, rgba(70, 130, 180, 0.02) 49%, rgba(70, 130, 180, 0.02) 51%, transparent 52%),
-            linear-gradient(-45deg, transparent 48%, rgba(135, 206, 235, 0.01) 49%, rgba(135, 206, 235, 0.01) 51%, transparent 52%);
-        background-size: 100px 100px, 150px 150px;
-        /* 强制硬件加速 */
-        transform: translateZ(0);
-        will-change: auto;
-    }
-    
-    /* 简化漂浮动画，减少性能消耗 */
-    .diary-book-cover::before {
-        animation: none !important;
-        /* 强制硬件加速 */
-        transform: translateZ(0);
-        will-change: auto;
-    }
-    
-    /* 移除 backdrop-filter，这是移动端闪烁的主要原因 */
     .diary-book-cover-content {
         padding: 30px 20px;
-        backdrop-filter: none !important;
-        /* 使用更简单的半透明背景 */
-        background: rgba(20, 20, 32, 0.85);
-        /* 强制硬件加速 */
-        transform: translateZ(0);
-        will-change: auto;
     }
     
     .diary-book-cover-title {
         font-size: 32px;
         margin-bottom: 18px;
         letter-spacing: 2px;
-        /* 减少动画复杂度 */
-        animation: none !important;
-        text-shadow: 0 0 20px var(--night-aurora-gold), 
-                     0 2px 4px rgba(0, 0, 0, 0.6);
     }
     
     .diary-book-cover-subtitle {
@@ -2473,34 +2443,25 @@
         margin-bottom: 28px;
     }
     
-    .diary-book-cover-subtitle span {
-        /* 禁用色彩循环动画 */
-        animation: none !important;
-    }
-    
     .diary-book-cover-button {
         font-size: 16px;
         padding: 14px 28px;
-        /* 简化按钮动画 */
-        animation: none !important;
-        /* 强制硬件加速 */
+    }
+    
+    /* 📱 移动端封面网格动画优化 - 防止闪烁 */
+    .diary-book-cover::after {
+        /* 移动端降低网格密度以提升性能 */
+        background-size: 150px 150px, 200px 200px;
+        /* 确保硬件加速 */
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+    }
+    
+    /* 移动端背景光晕优化 */
+    .diary-book-cover::before {
         transform: translateZ(0);
-        will-change: transform;
-    }
-    
-    /* 优化日记本弹窗背景星星，移除颜色变化动画 */
-    .diary-book-dialog::before,
-    .diary-book-dialog::after,
-    .diary-book-content::before,
-    .diary-book-content::after {
-        /* 保留闪烁，移除颜色变化 */
-        animation: starBlink1 3s ease-in-out infinite !important;
-    }
-    
-    /* 优化预设弹窗背景 */
-    .diary-preset-dialog::before {
-        animation: none !important;
-        opacity: 0.05;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
     }
     
     .diary-book-nav-header {
