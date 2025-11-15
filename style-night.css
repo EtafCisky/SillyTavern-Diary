@@ -1552,6 +1552,8 @@
         radial-gradient(circle at 25% 85%, rgba(221, 160, 221, 0.05) 0%, transparent 25%);
     animation: spaceFloat 30s ease-in-out infinite;
     pointer-events: none;
+    transform: translateZ(0); /* GPU加速 */
+    will-change: transform, opacity; /* 提示浏览器优化 */
 }
 
 .diary-book-cover::after {
@@ -1565,6 +1567,8 @@
     animation: auroraFlow 40s linear infinite;
   pointer-events: none;
     opacity: 0.6;
+    transform: translateZ(0); /* GPU加速 */
+    will-change: transform; /* 提示浏览器优化 */
 }
 
 .diary-book-cover-content {
@@ -1579,6 +1583,8 @@
     border-radius: 20px;
     backdrop-filter: blur(10px);
     box-shadow: var(--night-shadow-deep), var(--night-shadow-aurora);
+    transform: translateZ(0); /* GPU加速 */
+    will-change: transform, opacity; /* 提示浏览器优化入场动画 */
 }
 
 
@@ -2423,14 +2429,32 @@
         height: 100dvh;
     }
     
+    /* 📱 移动端封面性能优化 - 禁用复杂动画和效果 */
+    .diary-book-cover::before {
+        animation: none; /* 禁用动画 */
+        opacity: 0.5; /* 降低透明度 */
+    }
+    
+    .diary-book-cover::after {
+        display: none; /* 完全禁用移动网格背景 */
+    }
+    
     .diary-book-cover-content {
         padding: 30px 20px;
+        backdrop-filter: none; /* 禁用模糊效果 */
+        background: rgba(20, 20, 32, 0.85); /* 使用更不透明的背景代替 */
+        animation: none; /* 禁用入场动画 */
+        transform: translateZ(0); /* 强制GPU加速 */
+        will-change: auto; /* 移除will-change提示 */
     }
     
     .diary-book-cover-title {
         font-size: 32px;
         margin-bottom: 18px;
         letter-spacing: 2px;
+        animation: none; /* 禁用颜色循环动画 */
+        text-shadow: 0 0 20px var(--night-aurora-gold), 
+                     0 2px 4px rgba(0, 0, 0, 0.6); /* 简化阴影 */
     }
     
     .diary-book-cover-subtitle {
@@ -2438,9 +2462,20 @@
         margin-bottom: 28px;
     }
     
+    .diary-book-cover-subtitle span {
+        animation: none; /* 禁用span的动画 */
+    }
+    
     .diary-book-cover-button {
         font-size: 16px;
         padding: 14px 28px;
+        animation: none; /* 禁用呼吸动画 */
+        clip-path: none; /* 移除复杂的六边形裁剪 */
+        border-radius: 12px; /* 使用简单圆角 */
+    }
+    
+    .diary-book-cover-button::before {
+        animation: none; /* 禁用极光流动 */
     }
     
     .diary-book-nav-header {
