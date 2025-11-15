@@ -1565,11 +1565,6 @@
     animation: auroraFlow 40s linear infinite;
   pointer-events: none;
     opacity: 0.6;
-    /* 硬件加速优化 - 防止移动端闪烁 */
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    will-change: background-position;
 }
 
 .diary-book-cover-content {
@@ -2428,6 +2423,17 @@
         height: 100dvh;
     }
     
+    /* 🔧 修复移动端封面闪烁问题 - 禁用网格动画 */
+    .diary-book-cover::after {
+        animation: none !important;
+        opacity: 0.3;
+    }
+    
+    /* 🔧 简化背景动画以提升移动端性能 */
+    .diary-book-cover::before {
+        animation: none !important;
+    }
+    
     .diary-book-cover-content {
         padding: 30px 20px;
     }
@@ -2446,22 +2452,6 @@
     .diary-book-cover-button {
         font-size: 16px;
         padding: 14px 28px;
-    }
-    
-    /* 📱 移动端封面网格动画优化 - 防止闪烁 */
-    .diary-book-cover::after {
-        /* 移动端降低网格密度以提升性能 */
-        background-size: 150px 150px, 200px 200px;
-        /* 确保硬件加速 */
-        transform: translate3d(0, 0, 0);
-        -webkit-transform: translate3d(0, 0, 0);
-    }
-    
-    /* 移动端背景光晕优化 */
-    .diary-book-cover::before {
-        transform: translateZ(0);
-        backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
     }
     
     .diary-book-nav-header {
